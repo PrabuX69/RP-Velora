@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "RP Translator",
-  "short_name": "RP Translator",
+  "name": "RP Velora",
+  "short_name": "RP Velora",
   "description": "Translate AI companion roleplay chats EN ⇄ ID with Gemini",
   "start_url": "./",
   "scope": "./",
