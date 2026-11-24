@@ -677,8 +677,20 @@ render($('outEn'), store.get('outEn'), PH_EN);
 go(mode()==='api' && !store.get('apiKey') ? 2 : 0, false);
 showHandoff();
 requestAnimationFrame(()=>{ track.style.transition=''; ind.style.transition=''; });
-document.addEventListener('gesturestart',e=>e.preventDefault());
+/* ---------- Lock zoom ---------- */
+// iPhone/iPad + Safari Mac: pinch gestures
+['gesturestart','gesturechange','gestureend'].forEach(t=>
+  document.addEventListener(t,e=>e.preventDefault(),{passive:false}));
+// Any phone: two-finger pinch
+document.addEventListener('touchmove',e=>{ if(e.touches.length>1) e.preventDefault(); },{passive:false});
+// Double-tap zoom
 document.addEventListener('dblclick',e=>e.preventDefault(),{passive:false});
+// PC: Ctrl + mouse wheel / trackpad pinch
+addEventListener('wheel',e=>{ if(e.ctrlKey||e.metaKey) e.preventDefault(); },{passive:false});
+// PC: Ctrl + / Ctrl - / Ctrl 0
+addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey) && ['+','-','=','_','0'].includes(e.key)) e.preventDefault();
+});
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 </script>
 </body>
