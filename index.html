@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
@@ -7,6 +7,11 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>RP Velora</title>
+<script>
+/* apply the saved theme before first paint (no flash) */
+try{var _t=localStorage.getItem('theme')||'dark';var _d=_t==='dark'||(_t==='auto'&&!matchMedia('(prefers-color-scheme: light)').matches);
+document.documentElement.setAttribute('data-theme',_d?'dark':'light');}catch(e){}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
@@ -17,11 +22,23 @@
 :root{
   --bg:#0f0d16; --surface:#181522; --surface-2:#211d2e; --surface-3:#2a2539;
   --line:rgba(255,255,255,.07); --line-2:rgba(255,255,255,.12);
-  --text:#f3f0fa; --muted:#9b94ad; --faint:#6e6782;
+  --text:#f3f0fa; --muted:#9b94ad; --faint:#857e99;
   --a1:#8b6cff; --a2:#ff6fae; --grad:linear-gradient(135deg,var(--a1),var(--a2));
   --dialog:#ffd58c; --action:#aac9ff; --ok:#4ade80; --danger:#ff6b81;
+  --accent-text:#d9ccff; --accent-soft:#c6b6ff; --focus-bg:#241f33; --tabbar-bg:rgba(15,13,22,.96);
+  --pop-bg:#2c2740; --chip-bd:rgba(170,201,255,.25); --chip-bg:rgba(170,201,255,.07); --sk-mid:#3a3350;
   --r:18px; --r-sm:12px;
   --tabbar:68px;
+  color-scheme:dark;
+}
+html[data-theme=light]{
+  --bg:#f5f3fb; --surface:#ffffff; --surface-2:#f0edf8; --surface-3:#e4dff2;
+  --line:rgba(40,28,80,.09); --line-2:rgba(40,28,80,.16);
+  --text:#1f1a2e; --muted:#6a637c; --faint:#776f8c;
+  --dialog:#a35a00; --action:#2559c9; --danger:#d93a55; --ok:#16a34a;
+  --accent-text:#5b3fd0; --accent-soft:#6a4bd8; --focus-bg:#ffffff; --tabbar-bg:rgba(255,255,255,.95);
+  --pop-bg:#ffffff; --chip-bd:rgba(37,89,201,.28); --chip-bg:rgba(37,89,201,.07); --sk-mid:#d9d3ec;
+  color-scheme:light;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0}
 html,body{height:100%;background:var(--bg);color:var(--text);
@@ -33,6 +50,7 @@ body{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidd
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer;touch-action:manipulation}
 svg.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+[hidden]{display:none!important}
 
 /* ---------- Header ---------- */
 .top{flex:none;display:flex;align-items:center;justify-content:space-between;
@@ -70,18 +88,24 @@ textarea{display:block;width:100%;min-height:132px;max-height:42vh;resize:none;b
   background:var(--surface-2);border-radius:var(--r-sm);padding:13px 14px;font-size:16px;line-height:1.55;
   outline:none;transition:border-color .2s,background .2s;-webkit-user-select:text;user-select:text}
 textarea::placeholder,input::placeholder{color:var(--faint)}
-textarea:focus{border-color:rgba(139,108,255,.55);background:#241f33}
+textarea:focus{border-color:rgba(139,108,255,.55);background:var(--focus-bg)}
+textarea.flash{animation:flash .8s ease}
+@keyframes flash{0%{border-color:rgba(139,108,255,.95);box-shadow:0 0 0 4px rgba(139,108,255,.2)}100%{border-color:transparent;box-shadow:0 0 0 0 rgba(139,108,255,0)}}
 
 .out{min-height:84px;background:var(--surface-2);border-radius:var(--r-sm);padding:13px 14px;
-  line-height:1.65;white-space:pre-wrap;word-wrap:break-word;-webkit-user-select:text;user-select:text}
+  line-height:1.7;white-space:pre-wrap;word-wrap:break-word;-webkit-user-select:text;user-select:text}
 .out .ph{color:var(--faint)}
 .q{color:var(--dialog)}
 .a{color:var(--action);font-style:italic}
 .sk{height:12px;border-radius:6px;margin:6px 0 12px;
-  background:linear-gradient(90deg,var(--surface-3) 0%,#3a3350 50%,var(--surface-3) 100%);background-size:200% 100%;
+  background:linear-gradient(90deg,var(--surface-3) 0%,var(--sk-mid) 50%,var(--surface-3) 100%);background-size:200% 100%;
   animation:sh 1.1s linear infinite}
 .sk:nth-child(2){width:86%}.sk:nth-child(3){width:58%;margin-bottom:4px}
 @keyframes sh{to{background-position:-200% 0}}
+.legend{display:flex;gap:14px;margin-top:9px;font-size:11.5px;font-weight:600;color:var(--faint)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:8px;height:8px;border-radius:50%;display:block}
+.legend .ld{background:var(--dialog)}.legend .la{background:var(--action)}
 
 /* ---------- Buttons ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:14px;
@@ -93,6 +117,8 @@ textarea:focus{border-color:rgba(139,108,255,.55);background:#241f33}
 .btn-soft{width:100%;background:var(--surface-2);border:1px solid var(--line);color:var(--text);margin-top:10px}
 .btn-sm{display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 11px;border-radius:10px;font-size:13px;font-weight:600;gap:6px;
   background:var(--surface-2);border:1px solid var(--line);color:var(--text)}
+.btn-sm:disabled{opacity:.55;pointer-events:none}
+.btn-sm:active{transform:scale(.97)}
 .btn-sm svg.i{width:16px;height:16px}
 .btn-sm.icon{width:34px;padding:0}
 .btn-sm.done{color:var(--ok)}
@@ -105,20 +131,40 @@ textarea:focus{border-color:rgba(139,108,255,.55);background:#241f33}
   background:var(--surface-2);border:1px solid var(--line);font-size:13.5px;font-weight:600}
 .tool:active{transform:scale(.97)}
 .tool .g{font-weight:800;font-size:16px;line-height:1}
-.tool.accent{color:#d9ccff;border-color:rgba(139,108,255,.35);background:rgba(139,108,255,.12)}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
+.tool.accent{color:var(--accent-text);border-color:rgba(139,108,255,.35);background:rgba(139,108,255,.12)}
+.tool.accent.on{background:rgba(139,108,255,.26);border-color:rgba(139,108,255,.7)}
+
+/* ---------- Action ideas ---------- */
+.ideas{margin-top:12px;padding:12px;border-radius:var(--r-sm);background:var(--surface-2);border:1px solid var(--line);animation:pop .25s ease both}
+.ideas-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:-4px 0 10px 2px;
+  font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.ideas-head .btn-sm{background:transparent;border-color:transparent;color:var(--muted)}
+.moods{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.mood{height:36px;border-radius:10px;border:1px solid var(--line);background:var(--surface);
+  font-size:12.5px;font-weight:600;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:4px;padding:0 3px;white-space:nowrap;
+  transition:transform .12s,background .2s,border-color .2s}
+.mood span:first-child{font-size:14px;line-height:1}
+.mood:active{transform:scale(.96)}
+.mood.on{color:var(--text);border-color:rgba(139,108,255,.65);background:rgba(139,108,255,.16)}
+.chips{display:flex;flex-direction:column;gap:8px}
 .chips:not(:empty){margin-top:12px}
-.chip{border:1px solid rgba(170,201,255,.25);background:rgba(170,201,255,.07);color:var(--action);
-  font-style:italic;font-size:14px;font-weight:500;padding:9px 13px;border-radius:999px;text-align:left;
+.chip{display:flex;align-items:flex-start;gap:10px;width:100%;border:1px solid var(--chip-bd);background:var(--chip-bg);color:var(--action);
+  font-style:italic;font-size:14.5px;font-weight:500;line-height:1.45;padding:10px 13px;border-radius:14px;text-align:left;
   animation:pop .25s ease both}
-.chip:active{transform:scale(.97)}
+.chip .em{font-style:normal;font-size:17px;line-height:1.3;flex:none}
+.chip .tx{min-width:0;flex:1}
+.chip:active{transform:scale(.985)}
+.ideas-foot{display:flex;gap:8px;margin-top:12px}
+.ideas-foot .btn-sm{flex:1;height:38px}
+.ideas-foot .btn-sm.accent{color:var(--accent-text);border-color:rgba(139,108,255,.35);background:rgba(139,108,255,.12)}
+.ideas-note{font-size:12px;color:var(--faint);margin-top:9px;line-height:1.5}
 @keyframes pop{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
 .ctx{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;margin-bottom:12px;border-radius:var(--r);
   background:linear-gradient(135deg,rgba(139,108,255,.12),rgba(255,111,174,.08));border:1px solid rgba(139,108,255,.2)}
-.ctx svg.i{color:#c6b6ff;margin-top:2px}
+.ctx svg.i{color:var(--accent-soft);margin-top:2px}
 .ctx-body{min-width:0;flex:1}
-.ctx-label{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#c6b6ff;margin-bottom:4px}
+.ctx-label{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--accent-soft);margin-bottom:4px}
 .ctx-text{font-size:14px;line-height:1.5;color:var(--text);opacity:.9;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .ctx.open .ctx-text{-webkit-line-clamp:unset}
 .ctx.empty{background:var(--surface);border-color:var(--line)}
@@ -128,11 +174,13 @@ textarea:focus{border-color:rgba(139,108,255,.55);background:#241f33}
 .field{position:relative}
 .input{width:100%;height:50px;border:1px solid transparent;background:var(--surface-2);border-radius:var(--r-sm);
   padding:0 50px 0 14px;font-size:16px;outline:none;transition:border-color .2s;-webkit-user-select:text;user-select:text}
+.input.plain{padding-right:14px}
 .input:focus{border-color:rgba(139,108,255,.55)}
 .field .btn-sm{position:absolute;right:8px;top:8px}
 .help{font-size:13px;color:var(--muted);line-height:1.6;margin-top:12px}
 .help ol{padding-left:18px}
-.help a{color:#c6b6ff;font-weight:600;text-decoration:none}
+.help a{color:var(--accent-soft);font-weight:600;text-decoration:none}
+.help b{color:var(--text)}
 .row{display:flex;gap:8px;align-items:center}
 .select-wrap{position:relative;flex:1}
 .select-wrap select{width:100%;height:50px;appearance:none;-webkit-appearance:none;background:var(--surface-2);
@@ -140,18 +188,22 @@ textarea:focus{border-color:rgba(139,108,255,.55);background:#241f33}
 .select-wrap svg.i{position:absolute;right:14px;top:16px;pointer-events:none;color:var(--muted)}
 .row .btn-sm.icon{width:50px;height:50px;border-radius:var(--r-sm)}
 .sub{font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:18px 0 10px}
+.sub:first-child{margin-top:0}
 .seg{display:grid;grid-template-columns:repeat(3,1fr);background:var(--surface-2);border-radius:var(--r-sm);padding:4px;position:relative}
 .seg button{position:relative;z-index:1;height:42px;border:0;background:none;font-size:14px;font-weight:600;color:var(--muted);transition:color .2s}
 .seg button.on{color:var(--text)}
 .seg .thumb{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/3);border-radius:9px;
-  background:var(--surface-3);box-shadow:0 2px 8px rgba(0,0,0,.25);transition:transform .28s cubic-bezier(.22,.8,.24,1)}
+  background:var(--surface-3);box-shadow:0 2px 8px rgba(0,0,0,.18);transition:transform .28s cubic-bezier(.22,.8,.24,1)}
+.seg.two{grid-template-columns:repeat(2,1fr)}
+.seg.two .thumb{width:calc((100% - 8px)/2)}
+#modelRow[hidden] + .sub{margin-top:0}
 .danger{width:100%;height:48px;border-radius:var(--r-sm);border:1px solid rgba(255,107,129,.2);
   background:rgba(255,107,129,.07);color:var(--danger);font-weight:600;font-size:14.5px;display:flex;align-items:center;justify-content:center;gap:8px}
 .foot{text-align:center;font-size:12px;color:var(--faint);margin:8px 0 4px}
 
 /* ---------- Tab bar ---------- */
 .tabbar{flex:none;position:relative;display:flex;height:calc(var(--tabbar) + env(safe-area-inset-bottom));
-  padding-bottom:env(safe-area-inset-bottom);background:rgba(15,13,22,.96);border-top:1px solid var(--line);z-index:5}
+  padding-bottom:env(safe-area-inset-bottom);background:var(--tabbar-bg);border-top:1px solid var(--line);z-index:5}
 .tabbar button{flex:1;position:relative;z-index:1;border:0;background:none;display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--faint);transition:color .25s}
 .tabbar button svg.i{width:22px;height:22px}
@@ -163,21 +215,17 @@ body.kb .tabbar{display:none}
 
 /* ---------- Toast ---------- */
 .toast{position:fixed;left:50%;bottom:calc(var(--tabbar) + env(safe-area-inset-bottom) + 14px);
-  transform:translate(-50%,10px);max-width:calc(100% - 40px);background:#2c2740;border:1px solid var(--line-2);
+  transform:translate(-50%,10px);max-width:calc(100% - 40px);background:var(--pop-bg);border:1px solid var(--line-2);
   color:var(--text);padding:11px 16px;border-radius:14px;font-size:14px;font-weight:500;opacity:0;
-  transition:opacity .22s,transform .22s;pointer-events:none;z-index:20;box-shadow:0 10px 30px rgba(0,0,0,.4);text-align:center}
+  transition:opacity .22s,transform .22s;pointer-events:none;z-index:20;box-shadow:0 10px 30px rgba(0,0,0,.28);text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 body.kb .toast{bottom:16px}
 
 /* ---------- Gemini app hand-off ---------- */
-[hidden]{display:none!important}
-.seg.two{grid-template-columns:repeat(2,1fr)}
-.seg.two .thumb{width:calc((100% - 8px)/2)}
-#modelRow[hidden] + .sub{margin-top:0}
 .handoff{position:fixed;left:12px;right:12px;max-width:616px;margin:0 auto;
   bottom:calc(var(--tabbar) + env(safe-area-inset-bottom) + 12px);
   display:none;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 10px 12px 14px;border-radius:16px;
-  background:#2c2740;border:1px solid rgba(139,108,255,.35);box-shadow:0 10px 30px rgba(0,0,0,.45);z-index:15}
+  background:var(--pop-bg);border:1px solid rgba(139,108,255,.4);box-shadow:0 10px 30px rgba(0,0,0,.3);z-index:15}
 .handoff.show{display:flex;animation:pop .25s ease both}
 .handoff p{flex:1;min-width:0;font-size:13.5px;line-height:1.4}
 .handoff .btn-sm{flex:none;background:var(--grad);border:0;color:#fff}
@@ -185,6 +233,8 @@ body.kb .toast{bottom:16px}
 .handoff textarea{flex:1 0 100%;min-height:72px;max-height:30vh;font-size:15px}
 body.kb .handoff{bottom:12px}
 body.ho .toast{bottom:calc(var(--tabbar) + env(safe-area-inset-bottom) + 84px)}
+
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
@@ -217,9 +267,13 @@ body.ho .toast{bottom:calc(var(--tabbar) + env(safe-area-inset-bottom) + 84px)}
       <div class="card">
         <div class="card-head">
           <div class="card-title">Translation <span class="lang">ID</span></div>
-          <button class="btn-sm" id="btnCopyId"><i data-i="copy"></i><span>Copy</span></button>
+          <div class="head-actions">
+            <button class="btn-sm icon" id="btnRetryId" aria-label="Try another wording" hidden><i data-i="refresh"></i></button>
+            <button class="btn-sm" id="btnCopyId"><i data-i="copy"></i><span>Copy</span></button>
+          </div>
         </div>
         <div class="out" id="outId"><span class="ph">The translation will appear here.</span></div>
+        <div class="legend"><span><i class="ld"></i>Dialogue</span><span><i class="la"></i>Action</span></div>
         <button class="btn btn-soft" id="btnGoReply"><i data-i="reply"></i>Reply to this message</button>
       </div>
     </div></section>
@@ -245,15 +299,28 @@ body.ho .toast{bottom:calc(var(--tabbar) + env(safe-area-inset-bottom) + 84px)}
           <button class="tool" id="btnAddAction"><span class="g">* *</span>Action</button>
           <button class="tool accent" id="btnSuggest"><i data-i="sparkle"></i><span>Ideas</span></button>
         </div>
-        <div class="chips" id="chips"></div>
+
+        <div class="ideas" id="ideas" hidden>
+          <div class="ideas-head"><span>Action ideas</span><button class="btn-sm icon" id="btnIdeasX" aria-label="Close ideas"><i data-i="x"></i></button></div>
+          <div class="moods" id="moods"></div>
+          <div class="chips" id="chips"></div>
+          <div class="ideas-foot">
+            <button class="btn-sm" id="btnMore"><i data-i="shuffle"></i>More ideas</button>
+            <button class="btn-sm accent" id="btnGeminiIdeas" hidden><i data-i="sparkle"></i>Scene ideas</button>
+          </div>
+          <p class="ideas-note" id="ideasNote"></p>
+        </div>
+
         <button class="btn btn-primary" id="btnToEn"><i data-i="languages"></i>Translate to English</button>
       </div>
 
       <div class="card">
         <div class="card-head">
           <div class="card-title">Ready to send <span class="lang">EN</span></div>
+          <button class="btn-sm icon" id="btnRetryEn" aria-label="Try another wording" hidden><i data-i="refresh"></i></button>
         </div>
         <div class="out" id="outEn"><span class="ph">Your English reply will appear here.</span></div>
+        <div class="legend"><span><i class="ld"></i>Dialogue</span><span><i class="la"></i>Action</span></div>
         <button class="btn btn-primary" id="btnCopyEn"><i data-i="copy"></i><span>Copy reply</span></button>
       </div>
     </div></section>
@@ -296,6 +363,38 @@ body.ho .toast{bottom:calc(var(--tabbar) + env(safe-area-inset-bottom) + 84px)}
           <button data-v="gaul">Slang</button>
           <button data-v="formal">Formal</button>
         </div>
+        <div class="help" id="toneEx"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><div class="card-title">Roleplay <span class="lang">Optional</span></div></div>
+        <div class="sub">Character's name</div>
+        <input class="input plain" id="charName" placeholder="e.g. Vanessa" maxlength="40" autocomplete="off" spellcheck="false">
+        <div class="sub">Character is</div>
+        <div class="seg" id="charG">
+          <div class="thumb"></div>
+          <button data-v="auto">Auto</button>
+          <button data-v="male">Male</button>
+          <button data-v="female">Female</button>
+        </div>
+        <div class="sub">You are</div>
+        <div class="seg" id="meG">
+          <div class="thumb"></div>
+          <button data-v="auto">Auto</button>
+          <button data-v="male">Male</button>
+          <button data-v="female">Female</button>
+        </div>
+        <div class="help">Helps the translator pick the right <b>he / she</b> and makes the ideas fit your story. Not sure? Leave it on Auto.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><div class="card-title">Appearance</div></div>
+        <div class="seg" id="theme">
+          <div class="thumb"></div>
+          <button data-v="dark">Dark</button>
+          <button data-v="light">Light</button>
+          <button data-v="auto">Auto</button>
+        </div>
       </div>
 
       <button class="danger" id="btnLogout"><i data-i="trash"></i>Remove API key</button>
@@ -311,7 +410,7 @@ body.ho .toast{bottom:calc(var(--tabbar) + env(safe-area-inset-bottom) + 84px)}
   <button data-t="1"><i data-i="chat"></i>Reply</button>
   <button data-t="2"><i data-i="sliders"></i>Settings</button>
 </nav>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="handoff" id="handoff">
   <p id="handoffText"></p>
   <button class="btn-sm" id="btnPasteResult"><i data-i="paste"></i>Paste result</button>
@@ -344,7 +443,8 @@ const ICONS = {
   eyeoff:'<path d="M10.7 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-2.2 3.1M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6M2 2l20 20M9.9 9.9a3 3 0 0 0 4.2 4.2"/>',
   refresh:'<path d="M21 12a9 9 0 1 1-2.6-6.4L21 8"/><path d="M21 3v5h-5"/>',
   chevron:'<path d="m6 9 6 6 6-6"/>',
-  trash:'<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v5M14 11v5"/>'
+  trash:'<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v5M14 11v5"/>',
+  shuffle:'<path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="m18 14 4 4-4 4"/>'
 };
 const svg = n => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]||''}</svg>`;
 document.querySelectorAll('i[data-i]').forEach(el=>{ el.outerHTML = svg(el.dataset.i); });
@@ -352,8 +452,9 @@ document.querySelectorAll('i[data-i]').forEach(el=>{ el.outerHTML = svg(el.datas
 /* ---------- Helpers ---------- */
 const buzz = () => { try{ navigator.vibrate && navigator.vibrate(8) }catch(e){} };
 function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show');
-  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2400); }
+  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2800); }
 function esc(s){ return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 function render(el, text, ph){
   if(!text){ el.innerHTML=`<span class="ph">${ph||''}</span>`; el.dataset.raw=''; return; }
   el.innerHTML = esc(text).replace(/(\*\*?[^*\n]+?\*\*?)|("[^"\n]+?"|“[^”\n]+?”)/g,
@@ -381,6 +482,16 @@ function setStatus(){
   $('pill').classList.toggle('on', ok);
   $('pillText').textContent = app ? 'Gemini app' : ok ? 'Connected' : 'Offline';
 }
+
+/* ---------- Theme ---------- */
+const lightMQ = matchMedia('(prefers-color-scheme: light)');
+function applyTheme(){
+  const t=store.get('theme','dark');
+  const dark = t==='dark' || (t==='auto' && !lightMQ.matches);
+  document.documentElement.setAttribute('data-theme', dark?'dark':'light');
+  const m=document.querySelector('meta[name=theme-color]'); if(m) m.setAttribute('content', dark?'#0f0d16':'#f5f3fb');
+}
+try{ lightMQ.addEventListener('change',applyTheme); }catch(e){}
 
 /* ---------- Pager (swipe + tabs) ---------- */
 const pager=$('pager'), track=$('track'), tabbar=$('tabbar'), ind=$('tabInd');
@@ -439,43 +550,107 @@ document.addEventListener('focusout',()=>setTimeout(()=>{
 },50));
 
 /* ---------- Gemini (API mode) ---------- */
-async function gemini(system, user, json=false){
+function friendlyErr(status, msg){
+  if(status===429) return 'Gemini is limiting requests right now. Wait a few seconds and try again.';
+  if(status===503) return 'Gemini is overloaded at the moment. Try again in a moment.';
+  if(status===404) return 'This model is not available. Pick another one in Settings.';
+  if(status===400 && /api key/i.test(msg)) return 'That API key was not accepted. Check it in Settings.';
+  return msg || ('Error '+status);
+}
+async function gemini(system, user, o={}){
   const key=store.get('apiKey');
   if(!key){ go(2); throw new Error('Add your Gemini API key first.'); }
   const model=store.get('model', DEFAULT_MODELS[0]);
-  const body={
-    systemInstruction:{ parts:[{text:system}] },
-    contents:[{ role:'user', parts:[{text:user}] }],
-    generationConfig:{ temperature: json ? 0.9 : 0.4 },
-    safetySettings:['HARM_CATEGORY_HARASSMENT','HARM_CATEGORY_HATE_SPEECH','HARM_CATEGORY_SEXUALLY_EXPLICIT','HARM_CATEGORY_DANGEROUS_CONTENT']
-      .map(category=>({category, threshold:'BLOCK_ONLY_HIGH'}))
+  const build=noThink=>{
+    const gc={ temperature: o.temp ?? (o.json ? 1 : 0.5) };
+    if(o.json) gc.responseMimeType='application/json';
+    /* 2.5 Flash models: skip the slow "thinking" step, translation does not need it */
+    if(!noThink && /^gemini-2\.5-flash/.test(model)) gc.thinkingConfig={ thinkingBudget:0 };
+    return {
+      systemInstruction:{ parts:[{text:system}] },
+      contents:[{ role:'user', parts:[{text:user}] }],
+      generationConfig:gc,
+      safetySettings:['HARM_CATEGORY_HARASSMENT','HARM_CATEGORY_HATE_SPEECH','HARM_CATEGORY_SEXUALLY_EXPLICIT','HARM_CATEGORY_DANGEROUS_CONTENT']
+        .map(category=>({category, threshold:'BLOCK_ONLY_HIGH'}))
+    };
   };
-  if(json) body.generationConfig.responseMimeType='application/json';
-  let r;
-  try{
-    r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,{
-      method:'POST', headers:{'Content-Type':'application/json','x-goog-api-key':key}, body:JSON.stringify(body) });
-  }catch(e){ throw new Error('No internet connection.'); }
-  const d=await r.json().catch(()=>({}));
-  if(!r.ok) throw new Error(d.error?.message || ('Error '+r.status));
+  let noThink=false, retried=false, r, d;
+  for(;;){
+    try{
+      r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,{
+        method:'POST', headers:{'Content-Type':'application/json','x-goog-api-key':key}, body:JSON.stringify(build(noThink)) });
+    }catch(e){ throw new Error('No internet connection.'); }
+    d=await r.json().catch(()=>({}));
+    if(r.ok) break;
+    const msg=d.error?.message||'';
+    if(r.status===400 && !noThink && /think/i.test(msg)){ noThink=true; continue; }
+    if([500,502,503].includes(r.status) && !retried){ retried=true; await new Promise(z=>setTimeout(z,1400)); continue; }
+    throw new Error(friendlyErr(r.status,msg));
+  }
   if(d.promptFeedback?.blockReason) throw new Error('Blocked by Gemini filter.');
   const c=d.candidates?.[0];
   const text=(c?.content?.parts||[]).filter(p=>!p.thought).map(p=>p.text||'').join('').trim();
   if(!text) throw new Error(c?.finishReason==='SAFETY' ? 'Blocked by Gemini safety filter.' : 'No response from Gemini.');
   return text;
 }
-const TONE={
-  santai:'casual, natural everyday Indonesian (aku/kamu)',
-  gaul:'Jakarta slang Indonesian (gue/lo), relaxed',
-  formal:'standard, polite Indonesian (Bahasa baku)'
+
+/* ---------- Prompts ---------- */
+const TONES={
+  santai:{
+    d:'casual, natural spoken Indonesian, like chatting with someone close (aku/kamu). Use relaxed everyday words (nggak, udah, banget, kayak, gimana, emang) and natural particles (sih, dong, deh, kok, ya) where a real person would say them, but do not overdo it.',
+    ex:'*Dia memiringkan kepala, seulas senyum jahil tersungging di bibirnya.* "Oh ya? Emang kamu kuat ngadepin aku, sayang?"',
+    show:'“Kamu udah makan belum?”'},
+  gaul:{
+    d:'relaxed Jakarta-style slang, spoken (gue/lo, nggak/gak, udah, banget, ngapain, kayak). Playful and lively, never vulgar unless the original is.',
+    ex:'*Dia memiringkan kepala, seulas senyum jahil tersungging di bibirnya.* "Oh ya? Lo yakin bisa ngadepin gue, sayang?"',
+    show:'“Lo udah makan belum?”'},
+  formal:{
+    d:'polite, tidy Indonesian (saya/Anda where it fits, otherwise kamu), but still warm and speakable. It must sound like a real person talking, never like a textbook or an official letter.',
+    ex:'*Dia memiringkan kepala, seulas senyum jahil tersungging di bibirnya.* "Oh, benarkah? Kamu yakin sanggup mengimbangiku, sayang?"',
+    show:'“Apakah kamu sudah makan?”'}
 };
+const T=()=>TONES[store.get('tone','santai')]||TONES.santai;
 const FORMAT_RULES=`FORMAT RULES (very important):
 - Text inside *asterisks* is ACTION/NARRATION: translate it but keep the asterisks.
-- Text inside "double quotes" is DIALOGUE: translate it but keep the double quotes.
-- Keep line breaks, paragraph order, emoji, names, and OOC brackets exactly as they are.
-- Do not add, remove, censor, summarize, or explain anything.
-- Output ONLY the translated text.`;
-const tone=()=>TONE[store.get('tone','santai')]||TONE.santai;
+- Text inside "double quotes" is DIALOGUE: translate it but keep the quotes (curly quotes stay curly).
+- Text in (parentheses) or [brackets] is out-of-character (OOC): keep the brackets and translate it plainly.
+- Keep line breaks, paragraph order, emoji and names exactly as they are. Never add * or " markers that are not in the source.
+- Do not add, remove, censor, soften, summarize or explain anything. Keep the intensity and mood of the original, including romantic or intense scenes.
+- Output ONLY the translated text, with no notes or labels.`;
+const AGAIN='\nThe user wants a DIFFERENT version than the previous one: keep the exact meaning, but choose different words and sentence structure.';
+
+function rpContext(){
+  const clean=s=>String(s||'').replace(/[\r\n]+/g,' ').trim().slice(0,40);
+  const n=clean(store.get('charName','')), cg=store.get('charGender','auto'), mg=store.get('meGender','auto');
+  const g=v=>v==='male'?'male (he/him)':v==='female'?'female (she/her)':'';
+  const L=[];
+  if(n || g(cg)) L.push(`The AI character${n?` is named ${n}`:''}${g(cg)?`${n?' and is':' is'} ${g(cg)}`:''}.`);
+  if(g(mg)) L.push(`The user's own character is ${g(mg)}.`);
+  return L.length ? 'CONTEXT: '+L.join(' ')+'\n' : '';
+}
+function sysToId(){
+  const t=T();
+  return `You translate messages from an AI companion roleplay chat from English into Indonesian.
+DIALOGUE (text in "quotes"): translate it the way a real person would SAY it, in ${t.d} Keep the speaker's attitude, teasing, hesitation and emotion. Translate the meaning, not word for word: idioms, slang and jokes become natural Indonesian equivalents. Endearments such as darling, babe, love or honey become natural ones like "sayang". Keep sounds, stutters and CAPS emphasis (hmm, ah, w-wait, ...).
+ACTIONS / NARRATION (text in *asterisks*): translate into clear, natural written Indonesian that is easy to picture. It may be a little more descriptive than the dialogue, but not stiff or overly literary, and it stays in this same neutral style whatever the dialogue style is. Keep the person of the original (he/she/they become "dia"/"mereka", I becomes "aku", or "saya" in the formal style). Use a name instead of "dia" only if the original does.
+Example input:
+*She tilts her head, a playful smirk tugging at her lips.* "Oh really? You think you can handle me, darling?"
+Example output:
+${t.ex}
+Before you answer, check that every dialogue line sounds like something a real person would actually say out loud.
+${FORMAT_RULES}`;
+}
+function sysToEn(){
+  return `You translate the user's roleplay reply from Indonesian into English for an AI companion chat.
+${rpContext()}DIALOGUE (text in "quotes"): write it the way a real person would say or text it, in casual, natural spoken English: contractions (I'm, don't, you're), natural fillers, the same attitude and emotion. Translate the meaning, not word for word. Indonesian particles and slang (sih, dong, deh, kok, nih, banget, nggak) become natural English equivalents, never literal ones. "sayang" becomes babe, honey, love or sweetheart depending on the mood. Keep the user's point of view (aku = I).
+ACTIONS (text in *asterisks*): write clear, vivid, natural English narration. Indonesian has no tense and no gendered pronouns, so: use the tense of the character's last message when it is given (present tense if not); if an action has no subject, keep it without a subject (*smiles softly*); if it has one, keep that person (aku = I, dia = he/she/the name); use the genders from CONTEXT for he/she/his/her, and when they are unknown prefer neutral wording or the name instead of guessing.
+Example input:
+*menyelipkan rambut ke belakang telinga, pipinya sedikit memerah* "Hehe, iya deh. Aku ikut kamu aja, kok."
+Example output:
+*tucks a strand of hair behind one ear, cheeks turning a little pink* "Hehe, okay, fine. I'll just follow your lead."
+Before you answer, check that every dialogue line sounds like something a real person would actually say.
+${FORMAT_RULES}`;
+}
 
 /* ---------- Gemini app hand-off (no API) ---------- */
 const GEMINI_URL='https://gemini.google.com/app';
@@ -507,10 +682,14 @@ function applyResult(raw){
   if((raw||'').includes(HANDOFF_RULE)) return toast("That's the prompt. Copy Gemini's answer instead.");
   const kind=store.get('pending'), out=cleanResult(raw);
   if(!out) return toast('Nothing to paste yet');
-  if(kind==='toId'){ render($('outId'), out); store.set('ctxId', out); updateCtx(); go(0); }
-  else if(kind==='toEn'){ render($('outEn'), out); store.set('outEn', out); go(1);
+  if(kind==='toId'){ render($('outId'), out); store.set('ctxId', out); updateCtx(); syncRetry(); go(0); }
+  else if(kind==='toEn'){ render($('outEn'), out); store.set('outEn', out); syncRetry(); go(1);
     setTimeout(()=>$('btnCopyEn').scrollIntoView({behavior:'smooth',block:'nearest'}),400); }
-  else if(kind==='ideas'){ renderChips(out); go(1); }
+  else if(kind==='ideas'){
+    const list=parseIdeas(out);
+    if(!list.length) return toast("Couldn't read the ideas. Copy Gemini's answer again.");
+    openIdeas(); renderIdeas(list); go(1);
+  }
   hideHandoff(); buzz();
 }
 $('btnPasteResult').onclick=async()=>{
@@ -530,23 +709,32 @@ document.addEventListener('visibilitychange',()=>{
 
 /* ---------- READ ---------- */
 const PH_ID='The translation will appear here.', PH_EN='Your English reply will appear here.';
+function syncRetry(){
+  $('btnRetryId').hidden=!store.get('ctxId');
+  $('btnRetryEn').hidden=!store.get('outEn');
+}
 $('btnPaste').onclick=async()=>{
   try{ const t=await navigator.clipboard.readText(); if(!t) return toast('Clipboard is empty');
     $('inEn').value=t; autoGrow($('inEn')); store.set('inEn',t); buzz(); }
   catch(e){ toast('Long-press the box and tap Paste'); }
 };
 $('btnClearEn').onclick=()=>{ $('inEn').value=''; store.del('inEn'); autoGrow($('inEn')); };
-$('btnToId').onclick=async()=>{
+async function doToId(again){
+  const b=$('btnToId'); if(b.disabled) return;
   const src=$('inEn').value.trim(); if(!src) return toast('Paste a message first');
-  const sys=`You translate AI companion roleplay chat messages from English into ${tone()}. Make it sound natural and expressive like a novel, not stiff machine translation.\n${FORMAT_RULES}`;
-  if(mode()==='app'){ store.set('ctxEn',src); return handoff('toId', sys, src); }
-  const b=$('btnToId'); busy(b,true,'Translating…'); skeleton($('outId'));
+  const prev=$('outId').dataset.raw;
+  let sys=sysToId(), user=src;
+  if(again && prev){ sys+=AGAIN; user=`Translate this message:\n${src}\n\n---\nPrevious translation (write a different version, do not copy it):\n${prev}`; }
+  if(mode()==='app'){ store.set('ctxEn',src); return handoff('toId', sys, user); }
+  busy(b,true,'Translating…'); skeleton($('outId'));
   try{
-    const out=await gemini(sys, src);
+    const out=await gemini(sys, user, {temp: again?0.85:0.5});
     render($('outId'), out); store.set('ctxEn',src); store.set('ctxId',out); updateCtx(); buzz();
   }catch(e){ render($('outId'), store.get('ctxId'), PH_ID); toast(e.message); }
-  busy(b,false);
-};
+  busy(b,false); syncRetry();
+}
+$('btnToId').onclick=()=>doToId(false);
+$('btnRetryId').onclick=()=>doToId(true);
 $('btnCopyId').onclick=e=>{ const t=$('outId').dataset.raw; t ? copyText(t, e.currentTarget) : toast('Nothing to copy yet'); };
 $('btnGoReply').onclick=()=>go(1);
 
@@ -557,57 +745,252 @@ function updateCtx(){
   $('ctxText').textContent = c || 'No message yet. Translate one in Read first (optional).';
 }
 $('ctx').onclick=()=>$('ctx').classList.toggle('open');
-function insertText(txt, caretBack=0){
+function flash(ta){ ta.classList.remove('flash'); void ta.offsetWidth; ta.classList.add('flash'); }
+function insertText(txt, caretBack=0, focus=true){
   const ta=$('inId'); const s=ta.selectionStart ?? ta.value.length, e=ta.selectionEnd ?? s;
   const before=ta.value.slice(0,s), after=ta.value.slice(e);
   const pre = before && !/\s$/.test(before) ? ' ' : '';
   const post = !caretBack && after && !/^\s/.test(after) ? ' ' : '';
   ta.value = before+pre+txt+post+after;
   const pos = before.length+pre.length+txt.length-caretBack+(caretBack?0:post.length);
-  ta.focus(); ta.setSelectionRange(pos,pos); autoGrow(ta); store.set('inId',ta.value);
+  if(focus) ta.focus();
+  try{ ta.setSelectionRange(pos,pos); }catch(err){}
+  autoGrow(ta); store.set('inId',ta.value);
 }
 function wrap(open, close){
   const ta=$('inId'); const s=ta.selectionStart, e=ta.selectionEnd;
   if(s!==e){ ta.setRangeText(open+ta.value.slice(s,e)+close, s, e, 'end'); ta.focus(); store.set('inId',ta.value); return; }
+  /* caret is just before the closing " or * of an open pair: step out of it first, so the new pair is not nested inside */
+  const ch=ta.value[s];
+  if((ch==='"'||ch==='*') && (ta.value.slice(0,s).split(ch).length-1)%2===1){ try{ ta.setSelectionRange(s+1,s+1); }catch(err){} }
   insertText(open+close, close.length);
 }
 $('btnAddDialog').onclick=()=>wrap('"','"');
 $('btnAddAction').onclick=()=>wrap('*','*');
 $('btnClearId').onclick=()=>{ $('inId').value=''; store.del('inId'); $('chips').innerHTML=''; autoGrow($('inId')); };
-function renderChips(raw){
-  let list;
-  try{ list=JSON.parse(raw); if(!Array.isArray(list)) throw 0; }
-  catch(e){ list=raw.split('\n').map(s=>s.replace(/^[\s\-\d.*"\[]+|["*,\]]+$/g,'')).filter(Boolean); }
-  const box=$('chips'); box.innerHTML='';
-  list.slice(0,6).forEach((s,k)=>{
-    s=String(s).replace(/^\*+|\*+$/g,'').trim(); if(!s) return;
-    const c=document.createElement('button'); c.className='chip'; c.style.animationDelay=(k*50)+'ms'; c.textContent=s;
-    c.onclick=()=>{ insertText('*'+s+'*'); c.remove(); buzz(); };
-    box.appendChild(c);
+
+/* ----- action ideas ----- */
+const MOODS={mix:['Mix','🎲'],sweet:['Sweet','🥰'],playful:['Playful','😜'],flirty:['Flirty','😏'],shy:['Shy','😳'],bold:['Bold','😎'],caring:['Caring','🤗'],sad:['Sad','🥺']};
+/* built-in ideas: instant, work offline */
+const QUICK={
+  sweet:[
+    'menyandarkan kepala di bahunya sambil tersenyum tipis',
+    'menggenggam tangannya pelan, ibu jarinya mengusap punggung tangan itu',
+    'merapikan helai rambut yang jatuh di dahinya dengan ujung jari',
+    'menatapnya lama dengan mata berbinar, seolah tak mau berpaling',
+    'bersandar lebih dekat hingga bahu mereka bersentuhan',
+    'mengusap pipinya pelan sambil tersenyum hangat',
+    'memeluknya dari samping dan menyembunyikan wajah di lekuk lehernya',
+    'menyelipkan tangan ke dalam genggamannya tanpa berkata apa-apa',
+    'mengecup keningnya sekilas, lalu tersenyum malu',
+    'meletakkan dagu di bahunya sambil menghela napas lega',
+    'menarik ujung lengan bajunya pelan, minta ditemani sedikit lebih lama',
+    'tertawa kecil, matanya menyipit manis'],
+  playful:[
+    'menyenggol lengannya sambil menahan tawa',
+    'menyipitkan mata, pura-pura curiga',
+    'mengangkat sebelah alis dengan senyum jahil',
+    'menjulurkan lidah sekilas lalu buru-buru memalingkan muka',
+    'mencolek pipinya dengan satu jari, lalu pura-pura tidak tahu apa-apa',
+    'bersedekap dan mengetuk-ngetukkan jari ke lengan, menunggu jawabannya dengan gaya dramatis',
+    'mundur satu langkah sambil menunjuknya, tertawa geli',
+    'memiringkan kepala dengan senyum lebar yang jelas-jelas mengundang masalah',
+    'mencondongkan badan dan berbisik dramatis seperti membocorkan rahasia besar',
+    'menepuk-nepuk kepalanya sambil pura-pura bijak',
+    'mengedipkan sebelah mata lalu terkikik sendiri',
+    'mencomot camilannya diam-diam, lalu tersenyum tanpa dosa'],
+  flirty:[
+    'menggigit bibir bawah sambil menatapnya lekat-lekat',
+    'mendekat perlahan hingga jarak wajah mereka tinggal sejengkal',
+    'menyentuh dagunya dengan ujung jari, mengangkat wajahnya pelan',
+    'melirik dari balik bulu mata dengan senyum miring',
+    'merapikan kerah bajunya dengan gerakan yang sengaja dibuat lambat',
+    'berbisik rendah di dekat telinganya hingga bulu kuduknya meremang',
+    'menyusuri lengannya dengan jemari, pelan dan penuh maksud',
+    'bersandar di dinding sambil menatapnya dengan tatapan menggoda',
+    'memainkan ujung rambutnya sambil tersenyum penuh arti',
+    'menarik ujung bajunya pelan sampai ia mendekat',
+    'menahan senyum sambil menghembuskan napas pelan, tatapannya turun ke bibirnya',
+    'duduk lebih dekat dan menyilangkan kaki, matanya tak lepas darinya'],
+  shy:[
+    'memalingkan wajah, pipinya mulai memerah',
+    'menunduk sambil memilin ujung bajunya',
+    'menutup mulut dengan punggung tangan, menyembunyikan senyum',
+    'mengusap tengkuk dengan canggung, tak berani menatap balik',
+    'menyelipkan rambut ke belakang telinga dengan jari yang sedikit gemetar',
+    'melirik sekilas, lalu cepat-cepat pura-pura sibuk dengan hal lain',
+    'menarik napas dalam-dalam untuk menenangkan debar jantung',
+    'mengecilkan suara hingga hampir seperti bisikan',
+    'menyembunyikan wajah di balik telapak tangan sambil tertawa gugup',
+    'memeluk lututnya sambil mencuri pandang',
+    'terdiam sejenak, telinganya ikut memerah',
+    'tersenyum kikuk sambil menggaruk pipi'],
+  bold:[
+    'melangkah maju dan menatapnya tanpa berkedip',
+    'menggenggam pergelangan tangannya, tegas tapi tidak kasar',
+    'mengangkat dagu, menatapnya lurus dengan senyum percaya diri',
+    'menyilangkan tangan di dada dan menantangnya dengan tatapan tajam',
+    'memangkas jarak di antara mereka hanya dengan dua langkah',
+    'menarik kursi di depannya, duduk, lalu menatapnya langsung',
+    'menyeringai tipis, jelas tidak berniat mengalah',
+    'mengetukkan jari ke meja, menunggu ia berani menjawab',
+    'bersandar santai sambil menatapnya, penuh keyakinan',
+    'meraih tangannya dan menariknya pelan agar mengikuti',
+    'menegakkan bahu dan menjawab dengan tatapan mantap',
+    'menyampirkan jaket ke bahunya tanpa banyak bicara'],
+  caring:[
+    'menyodorkan secangkir teh hangat lalu duduk di sebelahnya',
+    'menarik selimut hingga menutupi bahunya',
+    'mengusap punggungnya pelan dengan gerakan menenangkan',
+    'memeriksa dahinya dengan punggung tangan, alisnya berkerut khawatir',
+    'duduk bersila di depannya dan mendengarkan dengan sabar',
+    'menyingkirkan rambut dari wajahnya dengan lembut',
+    'menaruh tangan di bahunya, menatapnya penuh perhatian',
+    'mengambilkan air minum lalu menyerahkannya tanpa bicara',
+    'menepuk sisi sofa agar ia duduk dan beristirahat',
+    'memijat bahunya pelan sambil menanyakan harinya',
+    'memakaikan jaket ke bahunya sambil merapikan kerahnya',
+    'menggeser duduk lebih dekat, menawarkan bahu untuk bersandar'],
+  sad:[
+    'menunduk dalam diam, jemarinya meremas ujung baju',
+    'menatap ke luar jendela dengan mata berkaca-kaca',
+    'menghela napas panjang dan memaksakan senyum kecil',
+    'mengusap sudut matanya cepat-cepat sebelum air matanya jatuh',
+    'memeluk lututnya sambil menyembunyikan wajah',
+    'menggigit bibir menahan tangis, suaranya bergetar',
+    'menggeleng pelan, tak sanggup melanjutkan kata-katanya',
+    'bahunya merosot lemas, tatapannya kosong',
+    'menarik napas tersendat sambil menahan isak',
+    'memalingkan wajah agar ia tak melihat air matanya',
+    'terdiam lama, lalu tertawa getir',
+    'menggenggam erat tangannya seolah takut ia pergi']
+};
+let shownIdeas=[], ideasSeq=0;
+const ANGLES=['eyes and gaze','hands and touch','voice, breathing or whispering','posture and body language','distance and movement','facial expression','something in the surroundings (an object, a drink, a blanket, a phone, a window, music)','hair, clothes or a small fidgeting habit'];
+function ideasSystem(mood){
+  const angles=shuffle(ANGLES.slice()).slice(0,6);
+  const moodRule = mood==='mix'
+    ? 'Mix the moods: use at least 4 different ones from sweet, playful, flirty, shy, bold, caring and sad.'
+    : `All 6 should fit the mood "${mood}", but each one must feel different.`;
+  const avoid=shownIdeas.slice(-14);
+  return `You are a creative roleplay co-writer. The user is replying in an AI companion roleplay chat. Suggest 6 different ACTIONS their character could do next.
+${rpContext()}RULES:
+- Write each action in Indonesian as a short stage direction: 6-16 words, vivid and easy to picture, with NO subject and NO asterisks (example: "menyelipkan rambut ke belakang telinga sambil melirik malu-malu").
+- React to the scene: use details from the character's last message (place, objects, mood, what was just said or done). If there is no message, imagine a cozy, intimate scene.
+- Make the 6 actions clearly different from each other. ${moodRule} Give each one a different focus, in this order: ${angles.join('; ')}. Vary the energy (subtle vs bold) and the sentence shape, and never start two actions with the same word.
+- Avoid cliches like a plain "tersenyum" or "mengangguk". Add one small, specific detail that makes the action feel alive.
+- Natural, clear Indonesian narration. Not stiff or textbook-like, and no slang inside the narration. Flirty ones can be suggestive but never crude.
+${avoid.length?`- Do NOT repeat or paraphrase these earlier ideas: ${avoid.join(' | ')}\n`:''}Return ONLY a JSON array of 6 objects like {"mood":"sweet","action":"..."}. Allowed moods: sweet, playful, flirty, shy, bold, caring, sad.`;
+}
+function ideasUser(){
+  return `Character's last message:\n${store.get('ctxEn')||'(none)'}\n\nUser's draft reply (Indonesian):\n${$('inId').value.trim()||'(empty)'}`;
+}
+function parseIdeas(raw){
+  const t=cleanResult(raw); let list=null;
+  try{
+    let d=JSON.parse(t);
+    if(d && !Array.isArray(d) && typeof d==='object') d=d.ideas||d.actions||Object.values(d).find(Array.isArray);
+    if(Array.isArray(d)) list=d;
+  }catch(e){}
+  if(!list){ const m=t.match(/\[[\s\S]*\]/); if(m){ try{ const d=JSON.parse(m[0]); if(Array.isArray(d)) list=d; }catch(e){} } }
+  if(!list){
+    list=t.split('\n').map(s=>s.replace(/^[\s\-\d.*"\[]+|["*,\]\s]+$/g,'')).filter(Boolean);
+    if(list.length<2) list=[]; /* one stray line is not a list of ideas */
+  }
+  return list.map(x=>{
+    const o = (x && typeof x==='object') ? x : {action:x};
+    let m=String(o.mood||o.m||'').toLowerCase().trim(); if(!MOODS[m]||m==='mix') m='';
+    const t=String(o.action||o.text||o.t||'').replace(/^\*+|\*+$/g,'').replace(/\s+/g,' ').trim();
+    return {m,t};
+  }).filter(x=>x.t);
+}
+function quickIdeas(mood,n=6){
+  const keys = mood==='mix' ? Object.keys(QUICK) : [mood];
+  const inKeys=t=>keys.some(k=>QUICK[k].includes(t));
+  const out=[];
+  /* round-robin over the moods; skips ideas already shown and ones already picked in this batch */
+  const fill=()=>{
+    const pools=shuffle(keys.slice()).map(k=>({k,list:shuffle(QUICK[k].filter(t=>!shownIdeas.includes(t)&&!out.some(o=>o.t===t)))}));
+    while(out.length<n){
+      let added=false;
+      for(const p of pools){ if(out.length>=n) break; if(p.list.length){ out.push({m:p.k,t:p.list.pop()}); added=true; } }
+      if(!added) break;
+    }
+  };
+  fill();
+  if(out.length<n){ /* ran low: forget older ideas, but not the batch that is on screen */
+    const recent=shownIdeas.slice(-n);
+    shownIdeas=shownIdeas.filter(t=>!inKeys(t)||recent.includes(t)); fill();
+  }
+  if(out.length<n){ shownIdeas=shownIdeas.filter(t=>!inKeys(t)); fill(); }
+  return out;
+}
+function renderMoods(){
+  const curM=store.get('mood','mix'), box=$('moods'); box.innerHTML='';
+  Object.keys(MOODS).forEach(k=>{
+    const b=document.createElement('button'); b.type='button'; b.className='mood'+(k===curM?' on':'');
+    b.setAttribute('aria-pressed', k===curM ? 'true' : 'false');
+    b.innerHTML=`<span>${MOODS[k][1]}</span><span>${MOODS[k][0]}</span>`;
+    b.onclick=()=>{ store.set('mood',k); renderMoods(); buzz(); loadIdeas(); };
+    box.appendChild(b);
   });
 }
-$('btnSuggest').onclick=async()=>{
-  const sys=`You help a user write roleplay replies. Suggest 4 short, varied ACTIONS (body language, gestures, expressions, movements) the user's character could do in their reply. Write them in ${tone()}, 2-8 words each, without asterisks, as present-tense actions without a subject (e.g. "tersenyum kecil sambil menunduk"). Fit the mood of the scene. Return a JSON array of 4 strings only.`;
-  const user=`Character's last message:\n${store.get('ctxEn')||'(none)'}\n\nUser's draft reply (Indonesian):\n${$('inId').value.trim()||'(empty)'}`;
-  if(mode()==='app') return handoff('ideas', sys, user);
-  const b=$('btnSuggest'); b.disabled=true; const old=b.innerHTML; b.innerHTML='<span class="spin" style="border-top-color:#d9ccff"></span>';
-  try{ renderChips(await gemini(sys, user, true)); }catch(e){ toast(e.message); }
-  b.disabled=false; b.innerHTML=old;
-};
-$('btnToEn').onclick=async()=>{
-  const src=$('inId').value.trim(); if(!src) return toast('Write your reply first');
-  const ctx=store.get('ctxEn');
-  const sys=`You translate the user's roleplay reply from Indonesian into natural, fluent, immersive English that fits a roleplay chat. Keep the user's meaning, tone and point of view (first person stays first person). Indonesian slang should become natural casual English.\n${FORMAT_RULES}`;
-  const user=(ctx?`(Context only, do NOT translate this) Character's last message:\n${ctx}\n\n`:'')+`Translate this reply:\n${src}`;
-  if(mode()==='app') return handoff('toEn', sys, user);
-  const b=$('btnToEn'); busy(b,true,'Translating…'); skeleton($('outEn'));
+function renderIdeas(list){
+  const box=$('chips'); box.innerHTML='';
+  list.forEach((x,k)=>{
+    const c=document.createElement('button'); c.type='button'; c.className='chip'; c.style.animationDelay=(k*45)+'ms';
+    const em=document.createElement('span'); em.className='em'; em.textContent=(MOODS[x.m]&&MOODS[x.m][1])||'✨';
+    const tx=document.createElement('span'); tx.className='tx'; tx.textContent=x.t;
+    c.appendChild(em); c.appendChild(tx);
+    c.onclick=()=>{ insertText('*'+x.t+'*',0,false); flash($('inId')); c.remove(); buzz(); };
+    box.appendChild(c);
+    shownIdeas.push(x.t);
+  });
+  if(shownIdeas.length>80) shownIdeas=shownIdeas.slice(-80);
+}
+function openIdeas(){ $('ideas').hidden=false; $('btnSuggest').classList.add('on'); }
+function closeIdeas(){ $('ideas').hidden=true; $('btnSuggest').classList.remove('on'); ideasSeq++; $('btnMore').disabled=false; }
+async function loadIdeas(){
+  const mood=store.get('mood','mix'), my=++ideasSeq, more=$('btnMore');
+  const showQuick=note=>{ renderIdeas(quickIdeas(mood)); if(note) toast(note); };
+  if(mode()==='app'){ showQuick(); return; }
+  if(!store.get('apiKey')){ showQuick('Quick ideas shown. Add your API key for ideas that fit the scene.'); return; }
+  more.disabled=true; skeleton($('chips'));
   try{
-    const out=await gemini(sys, user);
+    const raw=await gemini(ideasSystem(mood), ideasUser(), {json:true, temp:1});
+    if(my!==ideasSeq) return;
+    let list=parseIdeas(raw);
+    const fresh=list.filter(x=>!shownIdeas.some(s=>s.toLowerCase()===x.t.toLowerCase()));
+    if(fresh.length) list=fresh;
+    list=list.slice(0,6);
+    if(!list.length) throw new Error('No ideas came back.');
+    renderIdeas(list);
+  }catch(e){ if(my===ideasSeq) showQuick(e.message+' Showing quick ideas.'); }
+  finally{ if(my===ideasSeq) more.disabled=false; }
+}
+$('btnSuggest').onclick=()=>{ if(!$('ideas').hidden) return closeIdeas(); openIdeas(); loadIdeas(); };
+$('btnIdeasX').onclick=closeIdeas;
+$('btnMore').onclick=()=>loadIdeas();
+$('btnGeminiIdeas').onclick=()=>handoff('ideas', ideasSystem(store.get('mood','mix')), ideasUser());
+
+async function doToEn(again){
+  const b=$('btnToEn'); if(b.disabled) return;
+  const src=$('inId').value.trim(); if(!src) return toast('Write your reply first');
+  const ctx=store.get('ctxEn'), prev=$('outEn').dataset.raw;
+  let sys=sysToEn();
+  let user=(ctx?`(Context only, do NOT translate this) Character's last message:\n${ctx}\n\n`:'')+`Translate this reply:\n${src}`;
+  if(again && prev){ sys+=AGAIN; user+=`\n\n---\nPrevious translation (write a different version, do not copy it):\n${prev}`; }
+  if(mode()==='app') return handoff('toEn', sys, user);
+  busy(b,true,'Translating…'); skeleton($('outEn'));
+  try{
+    const out=await gemini(sys, user, {temp: again?0.85:0.5});
     render($('outEn'), out); store.set('outEn',out); buzz();
     $('btnCopyEn').scrollIntoView({behavior:'smooth',block:'nearest'});
   }catch(e){ render($('outEn'), store.get('outEn'), PH_EN); toast(e.message); }
-  busy(b,false);
-};
+  busy(b,false); syncRetry();
+}
+$('btnToEn').onclick=()=>doToEn(false);
+$('btnRetryEn').onclick=()=>doToEn(true);
 $('btnCopyEn').onclick=e=>{ const t=$('outEn').dataset.raw; t ? copyText(t, e.currentTarget) : toast('Nothing to copy yet'); };
 
 ['inEn','inId'].forEach(id=>{
@@ -627,7 +1010,12 @@ function setSeg(id, v){
   btns.forEach((b,k)=>b.classList.toggle('on',k===i));
   $(id).querySelector('.thumb').style.transform=`translateX(${i*100}%)`;
 }
-function setTone(v){ setSeg('tone', v); }
+function bindSeg(id, key, def, after){
+  setSeg(id, store.get(key,def));
+  $(id).querySelectorAll('button').forEach(b=>b.onclick=()=>{
+    store.set(key,b.dataset.v); setSeg(id,b.dataset.v); buzz(); if(after) after(b.dataset.v); });
+}
+function toneEx(){ $('toneEx').innerHTML=`Example: <b>${T().show}</b>`; }
 function applyMode(){
   const app=mode()==='app';
   setSeg('mode', app ? 'app' : 'api');
@@ -635,10 +1023,11 @@ function applyMode(){
   $('modeHelp').innerHTML = app
     ? "No API key needed. The app copies a ready prompt and opens Gemini. Copy Gemini's answer, come back, and tap <b>Paste result</b>."
     : 'Translates right inside the app using your own Gemini API key.';
+  $('btnGeminiIdeas').hidden=!app;
+  $('ideasNote').textContent = app ? 'These quick ideas work instantly. For ideas that fit the current scene, tap Scene ideas (opens Gemini).' : '';
   setStatus();
 }
 $('mode').querySelectorAll('button').forEach(b=>b.onclick=()=>{ store.set('mode', b.dataset.v); applyMode(); buzz(); });
-$('tone').querySelectorAll('button').forEach(b=>b.onclick=()=>{ store.set('tone',b.dataset.v); setTone(b.dataset.v); buzz(); });
 $('btnShowKey').onclick=()=>{ const k=$('apiKey'), show=k.type==='password'; k.type=show?'text':'password';
   $('btnShowKey').innerHTML=svg(show?'eyeoff':'eye'); };
 $('btnSaveKey').onclick=async()=>{
@@ -666,14 +1055,20 @@ async function loadModels(silent){
 $('btnLoadModels').onclick=()=>loadModels(false);
 $('btnLogout').onclick=()=>{ if(!confirm('Remove your API key from this device?')) return;
   store.del('apiKey'); $('apiKey').value=''; setStatus(); toast('API key removed'); };
+$('charName').value=store.get('charName','');
+$('charName').addEventListener('input',e=>store.set('charName',e.target.value));
 
 /* ---------- Init ---------- */
 $('apiKey').value=store.get('apiKey');
 fillModels(DEFAULT_MODELS.slice());
-setTone(store.get('tone','santai'));
-applyMode(); updateCtx();
+bindSeg('tone','tone','santai',toneEx); toneEx();
+bindSeg('charG','charGender','auto');
+bindSeg('meG','meGender','auto');
+bindSeg('theme','theme','dark',applyTheme); applyTheme();
+applyMode(); updateCtx(); renderMoods();
 render($('outId'), store.get('ctxId'), PH_ID);
 render($('outEn'), store.get('outEn'), PH_EN);
+syncRetry();
 go(mode()==='api' && !store.get('apiKey') ? 2 : 0, false);
 showHandoff();
 requestAnimationFrame(()=>{ track.style.transition=''; ind.style.transition=''; });
