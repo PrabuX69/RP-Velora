@@ -1,17 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="theme-color" content="#0f0d16">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>RP Velora</title>
-<script>
-/* apply the saved theme before first paint (no flash) */
-try{var _t=localStorage.getItem('theme')||'dark';var _d=_t==='dark'||(_t==='auto'&&!matchMedia('(prefers-color-scheme: light)').matches);
-document.documentElement.setAttribute('data-theme',_d?'dark':'light');}catch(e){}
-</script>
+<title>RP Translator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
@@ -22,23 +17,11 @@ document.documentElement.setAttribute('data-theme',_d?'dark':'light');}catch(e){
 :root{
   --bg:#0f0d16; --surface:#181522; --surface-2:#211d2e; --surface-3:#2a2539;
   --line:rgba(255,255,255,.07); --line-2:rgba(255,255,255,.12);
-  --text:#f3f0fa; --muted:#9b94ad; --faint:#857e99;
+  --text:#f3f0fa; --muted:#9b94ad; --faint:#6e6782;
   --a1:#8b6cff; --a2:#ff6fae; --grad:linear-gradient(135deg,var(--a1),var(--a2));
   --dialog:#ffd58c; --action:#aac9ff; --ok:#4ade80; --danger:#ff6b81;
-  --accent-text:#d9ccff; --accent-soft:#c6b6ff; --focus-bg:#241f33; --tabbar-bg:rgba(15,13,22,.96);
-  --pop-bg:#2c2740; --chip-bd:rgba(170,201,255,.25); --chip-bg:rgba(170,201,255,.07); --sk-mid:#3a3350;
   --r:18px; --r-sm:12px;
   --tabbar:68px;
-  color-scheme:dark;
-}
-html[data-theme=light]{
-  --bg:#f5f3fb; --surface:#ffffff; --surface-2:#f0edf8; --surface-3:#e4dff2;
-  --line:rgba(40,28,80,.09); --line-2:rgba(40,28,80,.16);
-  --text:#1f1a2e; --muted:#6a637c; --faint:#776f8c;
-  --dialog:#a35a00; --action:#2559c9; --danger:#d93a55; --ok:#16a34a;
-  --accent-text:#5b3fd0; --accent-soft:#6a4bd8; --focus-bg:#ffffff; --tabbar-bg:rgba(255,255,255,.95);
-  --pop-bg:#ffffff; --chip-bd:rgba(37,89,201,.28); --chip-bg:rgba(37,89,201,.07); --sk-mid:#d9d3ec;
-  color-scheme:light;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0}
 html,body{height:100%;background:var(--bg);color:var(--text);
@@ -50,7 +33,6 @@ body{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidd
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer;touch-action:manipulation}
 svg.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-[hidden]{display:none!important}
 
 /* ---------- Header ---------- */
 .top{flex:none;display:flex;align-items:center;justify-content:space-between;
@@ -88,24 +70,18 @@ textarea{display:block;width:100%;min-height:132px;max-height:42vh;resize:none;b
   background:var(--surface-2);border-radius:var(--r-sm);padding:13px 14px;font-size:16px;line-height:1.55;
   outline:none;transition:border-color .2s,background .2s;-webkit-user-select:text;user-select:text}
 textarea::placeholder,input::placeholder{color:var(--faint)}
-textarea:focus{border-color:rgba(139,108,255,.55);background:var(--focus-bg)}
-textarea.flash{animation:flash .8s ease}
-@keyframes flash{0%{border-color:rgba(139,108,255,.95);box-shadow:0 0 0 4px rgba(139,108,255,.2)}100%{border-color:transparent;box-shadow:0 0 0 0 rgba(139,108,255,0)}}
+textarea:focus{border-color:rgba(139,108,255,.55);background:#241f33}
 
 .out{min-height:84px;background:var(--surface-2);border-radius:var(--r-sm);padding:13px 14px;
-  line-height:1.7;white-space:pre-wrap;word-wrap:break-word;-webkit-user-select:text;user-select:text}
+  line-height:1.65;white-space:pre-wrap;word-wrap:break-word;-webkit-user-select:text;user-select:text}
 .out .ph{color:var(--faint)}
 .q{color:var(--dialog)}
 .a{color:var(--action);font-style:italic}
 .sk{height:12px;border-radius:6px;margin:6px 0 12px;
-  background:linear-gradient(90deg,var(--surface-3) 0%,var(--sk-mid) 50%,var(--surface-3) 100%);background-size:200% 100%;
+  background:linear-gradient(90deg,var(--surface-3) 0%,#3a3350 50%,var(--surface-3) 100%);background-size:200% 100%;
   animation:sh 1.1s linear infinite}
 .sk:nth-child(2){width:86%}.sk:nth-child(3){width:58%;margin-bottom:4px}
 @keyframes sh{to{background-position:-200% 0}}
-.legend{display:flex;gap:14px;margin-top:9px;font-size:11.5px;font-weight:600;color:var(--faint)}
-.legend span{display:flex;align-items:center;gap:6px}
-.legend i{width:8px;height:8px;border-radius:50%;display:block}
-.legend .ld{background:var(--dialog)}.legend .la{background:var(--action)}
 
 /* ---------- Buttons ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:14px;
@@ -117,8 +93,6 @@ textarea.flash{animation:flash .8s ease}
 .btn-soft{width:100%;background:var(--surface-2);border:1px solid var(--line);color:var(--text);margin-top:10px}
 .btn-sm{display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 11px;border-radius:10px;font-size:13px;font-weight:600;gap:6px;
   background:var(--surface-2);border:1px solid var(--line);color:var(--text)}
-.btn-sm:disabled{opacity:.55;pointer-events:none}
-.btn-sm:active{transform:scale(.97)}
 .btn-sm svg.i{width:16px;height:16px}
 .btn-sm.icon{width:34px;padding:0}
 .btn-sm.done{color:var(--ok)}
@@ -131,33 +105,28 @@ textarea.flash{animation:flash .8s ease}
   background:var(--surface-2);border:1px solid var(--line);font-size:13.5px;font-weight:600}
 .tool:active{transform:scale(.97)}
 .tool .g{font-weight:800;font-size:16px;line-height:1}
-.tool.accent{color:var(--accent-text);border-color:rgba(139,108,255,.35);background:rgba(139,108,255,.12)}
-.tool.accent.on{background:rgba(139,108,255,.26);border-color:rgba(139,108,255,.7)}
-
-/* ---------- Action ideas ---------- */
-.ideas{margin-top:12px;padding:12px;border-radius:var(--r-sm);background:var(--surface-2);border:1px solid var(--line);animation:pop .25s ease both}
-.ideas-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:-4px -4px 8px 2px;
-  font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
-.ideas-head .head-actions{display:flex;gap:2px}
-.ideas-head .btn-sm{background:transparent;border-color:transparent;color:var(--muted)}
-.chips{display:flex;flex-direction:column;gap:8px}
-.chip{display:flex;align-items:center;gap:10px;width:100%;border:1px solid var(--chip-bd);background:var(--chip-bg);color:var(--action);
-  font-style:italic;font-size:15px;font-weight:500;line-height:1.4;padding:11px 13px;border-radius:14px;text-align:left;
+.tool.accent{color:#d9ccff;border-color:rgba(139,108,255,.35);background:rgba(139,108,255,.12)}
+/* Meaning (Indonesian) under the English reply */
+.mean{margin-top:12px}
+.mean .card-title{margin-bottom:8px}
+.out.sm{min-height:56px;font-size:14.5px;background:var(--surface)}
+.a.added{text-decoration:underline dashed rgba(170,201,255,.7);text-underline-offset:4px}
+.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:8px}
+.hint{font-size:12.5px;color:var(--muted);line-height:1.55;margin-top:10px}
+.hint b{color:var(--text);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips:not(:empty){margin-top:12px}
+.chip{border:1px solid rgba(170,201,255,.25);background:rgba(170,201,255,.07);color:var(--action);
+  font-style:italic;font-size:14px;font-weight:500;padding:9px 13px;border-radius:999px;text-align:left;
   animation:pop .25s ease both}
-.chip .em{font-style:normal;font-size:18px;line-height:1;flex:none}
-.chip .tx{min-width:0;flex:1}
-.chip:active{transform:scale(.985)}
-.skc{height:46px;border-radius:14px;
-  background:linear-gradient(90deg,var(--surface-3) 0%,var(--sk-mid) 50%,var(--surface-3) 100%);background-size:200% 100%;
-  animation:sh 1.1s linear infinite}
-.ideas .gem{width:100%;height:38px;margin-top:10px;color:var(--accent-text);border-color:rgba(139,108,255,.35);background:rgba(139,108,255,.12)}
+.chip:active{transform:scale(.97)}
 @keyframes pop{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
 .ctx{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;margin-bottom:12px;border-radius:var(--r);
   background:linear-gradient(135deg,rgba(139,108,255,.12),rgba(255,111,174,.08));border:1px solid rgba(139,108,255,.2)}
-.ctx svg.i{color:var(--accent-soft);margin-top:2px}
+.ctx svg.i{color:#c6b6ff;margin-top:2px}
 .ctx-body{min-width:0;flex:1}
-.ctx-label{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--accent-soft);margin-bottom:4px}
+.ctx-label{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#c6b6ff;margin-bottom:4px}
 .ctx-text{font-size:14px;line-height:1.5;color:var(--text);opacity:.9;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .ctx.open .ctx-text{-webkit-line-clamp:unset}
 .ctx.empty{background:var(--surface);border-color:var(--line)}
@@ -167,13 +136,11 @@ textarea.flash{animation:flash .8s ease}
 .field{position:relative}
 .input{width:100%;height:50px;border:1px solid transparent;background:var(--surface-2);border-radius:var(--r-sm);
   padding:0 50px 0 14px;font-size:16px;outline:none;transition:border-color .2s;-webkit-user-select:text;user-select:text}
-.input.plain{padding-right:14px}
 .input:focus{border-color:rgba(139,108,255,.55)}
 .field .btn-sm{position:absolute;right:8px;top:8px}
 .help{font-size:13px;color:var(--muted);line-height:1.6;margin-top:12px}
 .help ol{padding-left:18px}
-.help a{color:var(--accent-soft);font-weight:600;text-decoration:none}
-.help b{color:var(--text)}
+.help a{color:#c6b6ff;font-weight:600;text-decoration:none}
 .row{display:flex;gap:8px;align-items:center}
 .select-wrap{position:relative;flex:1}
 .select-wrap select{width:100%;height:50px;appearance:none;-webkit-appearance:none;background:var(--surface-2);
@@ -181,22 +148,20 @@ textarea.flash{animation:flash .8s ease}
 .select-wrap svg.i{position:absolute;right:14px;top:16px;pointer-events:none;color:var(--muted)}
 .row .btn-sm.icon{width:50px;height:50px;border-radius:var(--r-sm)}
 .sub{font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:18px 0 10px}
-.sub:first-child{margin-top:0}
 .seg{display:grid;grid-template-columns:repeat(3,1fr);background:var(--surface-2);border-radius:var(--r-sm);padding:4px;position:relative}
 .seg button{position:relative;z-index:1;height:42px;border:0;background:none;font-size:14px;font-weight:600;color:var(--muted);transition:color .2s}
 .seg button.on{color:var(--text)}
 .seg .thumb{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/3);border-radius:9px;
-  background:var(--surface-3);box-shadow:0 2px 8px rgba(0,0,0,.18);transition:transform .28s cubic-bezier(.22,.8,.24,1)}
+  background:var(--surface-3);box-shadow:0 2px 8px rgba(0,0,0,.25);transition:transform .28s cubic-bezier(.22,.8,.24,1)}
 .seg.two{grid-template-columns:repeat(2,1fr)}
 .seg.two .thumb{width:calc((100% - 8px)/2)}
-#modelRow[hidden] + .sub{margin-top:0}
 .danger{width:100%;height:48px;border-radius:var(--r-sm);border:1px solid rgba(255,107,129,.2);
   background:rgba(255,107,129,.07);color:var(--danger);font-weight:600;font-size:14.5px;display:flex;align-items:center;justify-content:center;gap:8px}
 .foot{text-align:center;font-size:12px;color:var(--faint);margin:8px 0 4px}
 
 /* ---------- Tab bar ---------- */
 .tabbar{flex:none;position:relative;display:flex;height:calc(var(--tabbar) + env(safe-area-inset-bottom));
-  padding-bottom:env(safe-area-inset-bottom);background:var(--tabbar-bg);border-top:1px solid var(--line);z-index:5}
+  padding-bottom:env(safe-area-inset-bottom);background:rgba(15,13,22,.96);border-top:1px solid var(--line);z-index:5}
 .tabbar button{flex:1;position:relative;z-index:1;border:0;background:none;display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--faint);transition:color .25s}
 .tabbar button svg.i{width:22px;height:22px}
@@ -208,26 +173,11 @@ body.kb .tabbar{display:none}
 
 /* ---------- Toast ---------- */
 .toast{position:fixed;left:50%;bottom:calc(var(--tabbar) + env(safe-area-inset-bottom) + 14px);
-  transform:translate(-50%,10px);max-width:calc(100% - 40px);background:var(--pop-bg);border:1px solid var(--line-2);
+  transform:translate(-50%,10px);max-width:calc(100% - 40px);background:#2c2740;border:1px solid var(--line-2);
   color:var(--text);padding:11px 16px;border-radius:14px;font-size:14px;font-weight:500;opacity:0;
-  transition:opacity .22s,transform .22s;pointer-events:none;z-index:20;box-shadow:0 10px 30px rgba(0,0,0,.28);text-align:center}
+  transition:opacity .22s,transform .22s;pointer-events:none;z-index:20;box-shadow:0 10px 30px rgba(0,0,0,.4);text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 body.kb .toast{bottom:16px}
-
-/* ---------- Gemini app hand-off ---------- */
-.handoff{position:fixed;left:12px;right:12px;max-width:616px;margin:0 auto;
-  bottom:calc(var(--tabbar) + env(safe-area-inset-bottom) + 12px);
-  display:none;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 10px 12px 14px;border-radius:16px;
-  background:var(--pop-bg);border:1px solid rgba(139,108,255,.4);box-shadow:0 10px 30px rgba(0,0,0,.3);z-index:15}
-.handoff.show{display:flex;animation:pop .25s ease both}
-.handoff p{flex:1;min-width:0;font-size:13.5px;line-height:1.4}
-.handoff .btn-sm{flex:none;background:var(--grad);border:0;color:#fff}
-.handoff .x{flex:none;background:none;border:0;color:var(--muted);padding:6px;display:flex}
-.handoff textarea{flex:1 0 100%;min-height:72px;max-height:30vh;font-size:15px}
-body.kb .handoff{bottom:12px}
-body.ho .toast{bottom:calc(var(--tabbar) + env(safe-area-inset-bottom) + 84px)}
-
-@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
@@ -235,7 +185,7 @@ body.ho .toast{bottom:calc(var(--tabbar) + env(safe-area-inset-bottom) + 84px)}
 <header class="top">
   <div class="brand">
     <img src="icon-192.png" alt="">
-    <div><h1>RP <b>Velora</b></h1><small>Roleplay chat · EN ⇄ ID</small></div>
+    <div><h1>RP <b>Translator</b></h1><small>Roleplay chat · EN ⇄ ID</small></div>
   </div>
   <button class="pill" id="pill"><span class="dot"></span><span id="pillText">Offline</span></button>
 </header>
@@ -260,13 +210,9 @@ body.ho .toast{bottom:calc(var(--tabbar) + env(safe-area-inset-bottom) + 84px)}
       <div class="card">
         <div class="card-head">
           <div class="card-title">Translation <span class="lang">ID</span></div>
-          <div class="head-actions">
-            <button class="btn-sm icon" id="btnRetryId" aria-label="Try another wording" hidden><i data-i="refresh"></i></button>
-            <button class="btn-sm" id="btnCopyId"><i data-i="copy"></i><span>Copy</span></button>
-          </div>
+          <button class="btn-sm" id="btnCopyId"><i data-i="copy"></i><span>Copy</span></button>
         </div>
         <div class="out" id="outId"><span class="ph">The translation will appear here.</span></div>
-        <div class="legend"><span><i class="ld"></i>Dialogue</span><span><i class="la"></i>Action</span></div>
         <button class="btn btn-soft" id="btnGoReply"><i data-i="reply"></i>Reply to this message</button>
       </div>
     </div></section>
@@ -292,28 +238,21 @@ body.ho .toast{bottom:calc(var(--tabbar) + env(safe-area-inset-bottom) + 84px)}
           <button class="tool" id="btnAddAction"><span class="g">* *</span>Action</button>
           <button class="tool accent" id="btnSuggest"><i data-i="sparkle"></i><span>Ideas</span></button>
         </div>
-
-        <div class="ideas" id="ideas" hidden>
-          <div class="ideas-head"><span id="ideasTitle">Ideas for this scene</span>
-            <div class="head-actions">
-              <button class="btn-sm icon" id="btnMore" aria-label="New ideas"><i data-i="shuffle"></i></button>
-              <button class="btn-sm icon" id="btnIdeasX" aria-label="Close ideas"><i data-i="x"></i></button>
-            </div>
-          </div>
-          <div class="chips" id="chips"></div>
-          <button class="btn-sm gem" id="btnGeminiIdeas" hidden><i data-i="sparkle"></i>Smarter ideas with Gemini</button>
-        </div>
-
+        <div class="chips" id="chips"></div>
+        <p class="hint">Plain text is <b>dialogue</b>: quotes are added for you. Put actions between <b>* *</b>. If you write only dialogue, a fitting action is added automatically.</p>
         <button class="btn btn-primary" id="btnToEn"><i data-i="languages"></i>Translate to English</button>
       </div>
 
       <div class="card">
         <div class="card-head">
           <div class="card-title">Ready to send <span class="lang">EN</span></div>
-          <button class="btn-sm icon" id="btnRetryEn" aria-label="Try another wording" hidden><i data-i="refresh"></i></button>
         </div>
         <div class="out" id="outEn"><span class="ph">Your English reply will appear here.</span></div>
-        <div class="legend"><span><i class="ld"></i>Dialogue</span><span><i class="la"></i>Action</span></div>
+        <div class="mean">
+          <div class="card-title">Meaning <span class="lang">ID</span></div>
+          <div class="out sm" id="outEnId"><span class="ph">The Indonesian meaning will appear here.</span></div>
+          <div class="note" id="addNote" hidden>The dashed action was added automatically. Tap Translate again for a different one.</div>
+        </div>
         <button class="btn btn-primary" id="btnCopyEn"><i data-i="copy"></i><span>Copy reply</span></button>
       </div>
     </div></section>
@@ -321,16 +260,6 @@ body.ho .toast{bottom:calc(var(--tabbar) + env(safe-area-inset-bottom) + 84px)}
     <!-- ===== SETTINGS ===== -->
     <section class="panel"><div class="panel-inner">
       <div class="card">
-        <div class="card-head"><div class="card-title">Connection</div></div>
-        <div class="seg two" id="mode">
-          <div class="thumb"></div>
-          <button data-v="app">Gemini app</button>
-          <button data-v="api">API key</button>
-        </div>
-        <div class="help" id="modeHelp"></div>
-      </div>
-
-      <div class="card" id="keyCard">
         <div class="card-head"><div class="card-title">Gemini API key</div></div>
         <div class="field">
           <input class="input" type="password" id="apiKey" placeholder="Paste your key (AIza…)" autocomplete="off" spellcheck="false">
@@ -345,7 +274,7 @@ body.ho .toast{bottom:calc(var(--tabbar) + env(safe-area-inset-bottom) + 84px)}
 
       <div class="card">
         <div class="card-head"><div class="card-title">Translation</div></div>
-        <div class="row" id="modelRow">
+        <div class="row">
           <div class="select-wrap"><select id="model"></select><i data-i="chevron"></i></div>
           <button class="btn-sm icon" id="btnLoadModels" aria-label="Refresh models"><i data-i="refresh"></i></button>
         </div>
@@ -356,52 +285,17 @@ body.ho .toast{bottom:calc(var(--tabbar) + env(safe-area-inset-bottom) + 84px)}
           <button data-v="gaul">Slang</button>
           <button data-v="formal">Formal</button>
         </div>
-        <div class="help" id="toneEx"></div>
-      </div>
-
-      <div class="card">
-        <div class="card-head"><div class="card-title">Roleplay <span class="lang">Optional</span></div></div>
-        <div class="sub">Character's name</div>
-        <input class="input plain" id="charName" placeholder="e.g. Vanessa" maxlength="40" autocomplete="off" spellcheck="false">
-        <div class="sub">Character is</div>
-        <div class="seg" id="charG">
+        <div class="sub">Auto action</div>
+        <div class="seg two" id="autoAct">
           <div class="thumb"></div>
-          <button data-v="auto">Auto</button>
-          <button data-v="male">Male</button>
-          <button data-v="female">Female</button>
+          <button data-v="on">On</button>
+          <button data-v="off">Off</button>
         </div>
-        <div class="sub">You are</div>
-        <div class="seg" id="meG">
-          <div class="thumb"></div>
-          <button data-v="auto">Auto</button>
-          <button data-v="male">Male</button>
-          <button data-v="female">Female</button>
-        </div>
-        <div class="help">Helps the translator pick the right <b>he / she</b> and makes the ideas fit your story. Not sure? Leave it on Auto.</div>
-      </div>
-
-      <div class="card">
-        <div class="card-head"><div class="card-title">Action ideas</div></div>
-        <div class="seg two" id="autoI">
-          <div class="thumb"></div>
-          <button data-v="on">Auto</button>
-          <button data-v="off">Manual</button>
-        </div>
-        <div class="help"><b>Auto:</b> ideas that fit the character's last message appear by themselves when you open Reply. <b>Manual:</b> only when you tap Ideas. Without an API key, a simple built-in scene reader is used.</div>
-      </div>
-
-      <div class="card">
-        <div class="card-head"><div class="card-title">Appearance</div></div>
-        <div class="seg" id="theme">
-          <div class="thumb"></div>
-          <button data-v="dark">Dark</button>
-          <button data-v="light">Light</button>
-          <button data-v="auto">Auto</button>
-        </div>
+        <div class="help" style="margin-top:10px">When your reply is only dialogue, add an action that fits the scene.</div>
       </div>
 
       <button class="danger" id="btnLogout"><i data-i="trash"></i>Remove API key</button>
-      <p class="foot">RP Velora · powered by Gemini</p>
+      <p class="foot">RP Translator · powered by Gemini</p>
     </div></section>
 
   </div>
@@ -413,13 +307,7 @@ body.ho .toast{bottom:calc(var(--tabbar) + env(safe-area-inset-bottom) + 84px)}
   <button data-t="1"><i data-i="chat"></i>Reply</button>
   <button data-t="2"><i data-i="sliders"></i>Settings</button>
 </nav>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-<div class="handoff" id="handoff">
-  <p id="handoffText"></p>
-  <button class="btn-sm" id="btnPasteResult"><i data-i="paste"></i>Paste result</button>
-  <button class="x" id="btnHandoffX" aria-label="Close"><i data-i="x"></i></button>
-  <textarea id="handoffIn" hidden placeholder="Long-press here and tap Paste"></textarea>
-</div>
+<div class="toast" id="toast"></div>
 
 <script>
 const $ = id => document.getElementById(id);
@@ -446,8 +334,7 @@ const ICONS = {
   eyeoff:'<path d="M10.7 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-2.2 3.1M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6M2 2l20 20M9.9 9.9a3 3 0 0 0 4.2 4.2"/>',
   refresh:'<path d="M21 12a9 9 0 1 1-2.6-6.4L21 8"/><path d="M21 3v5h-5"/>',
   chevron:'<path d="m6 9 6 6 6-6"/>',
-  trash:'<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v5M14 11v5"/>',
-  shuffle:'<path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="m18 14 4 4-4 4"/>'
+  trash:'<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v5M14 11v5"/>'
 };
 const svg = n => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]||''}</svg>`;
 document.querySelectorAll('i[data-i]').forEach(el=>{ el.outerHTML = svg(el.dataset.i); });
@@ -455,9 +342,8 @@ document.querySelectorAll('i[data-i]').forEach(el=>{ el.outerHTML = svg(el.datas
 /* ---------- Helpers ---------- */
 const buzz = () => { try{ navigator.vibrate && navigator.vibrate(8) }catch(e){} };
 function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show');
-  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2800); }
+  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2400); }
 function esc(s){ return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
-function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 function render(el, text, ph){
   if(!text){ el.innerHTML=`<span class="ph">${ph||''}</span>`; el.dataset.raw=''; return; }
   el.innerHTML = esc(text).replace(/(\*\*?[^*\n]+?\*\*?)|("[^"\n]+?"|“[^”\n]+?”)/g,
@@ -481,20 +367,10 @@ async function copyText(text, btn){
 }
 function autoGrow(ta){ ta.style.height='auto'; ta.style.height=Math.min(ta.scrollHeight+2, innerHeight*0.42)+'px'; }
 function setStatus(){
-  const app = mode()==='app', ok = app || !!store.get('apiKey');
+  const ok=!!store.get('apiKey');
   $('pill').classList.toggle('on', ok);
-  $('pillText').textContent = app ? 'Gemini app' : ok ? 'Connected' : 'Offline';
+  $('pillText').textContent = ok ? 'Connected' : 'Offline';
 }
-
-/* ---------- Theme ---------- */
-const lightMQ = matchMedia('(prefers-color-scheme: light)');
-function applyTheme(){
-  const t=store.get('theme','dark');
-  const dark = t==='dark' || (t==='auto' && !lightMQ.matches);
-  document.documentElement.setAttribute('data-theme', dark?'dark':'light');
-  const m=document.querySelector('meta[name=theme-color]'); if(m) m.setAttribute('content', dark?'#0f0d16':'#f5f3fb');
-}
-try{ lightMQ.addEventListener('change',applyTheme); }catch(e){}
 
 /* ---------- Pager (swipe + tabs) ---------- */
 const pager=$('pager'), track=$('track'), tabbar=$('tabbar'), ind=$('tabInd');
@@ -509,7 +385,6 @@ function go(i, animate=true){
   indAt(cur);
   tabs.forEach((b,k)=>b.classList.toggle('active',k===cur));
   if(prev!==cur){ buzz(); if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }
-  if(prev!==cur && cur===1 && typeof autoIdeas==='function') autoIdeas();
 }
 tabs.forEach((b,k)=>b.onclick=()=>go(k));
 $('pill').onclick=()=>go(2);
@@ -553,192 +428,62 @@ document.addEventListener('focusout',()=>setTimeout(()=>{
   if(!document.activeElement || !document.activeElement.matches('textarea,input')) document.body.classList.remove('kb');
 },50));
 
-/* ---------- Gemini (API mode) ---------- */
-function friendlyErr(status, msg){
-  if(status===429) return 'Gemini is limiting requests right now. Wait a few seconds and try again.';
-  if(status===503) return 'Gemini is overloaded at the moment. Try again in a moment.';
-  if(status===404) return 'This model is not available. Pick another one in Settings.';
-  if(status===400 && /api key/i.test(msg)) return 'That API key was not accepted. Check it in Settings.';
-  return msg || ('Error '+status);
-}
-async function gemini(system, user, o={}){
+/* ---------- Gemini ---------- */
+async function gemini(system, user, json=false, temp){
   const key=store.get('apiKey');
   if(!key){ go(2); throw new Error('Add your Gemini API key first.'); }
   const model=store.get('model', DEFAULT_MODELS[0]);
-  const build=noThink=>{
-    const gc={ temperature: o.temp ?? (o.json ? 1 : 0.5) };
-    if(o.json) gc.responseMimeType='application/json';
-    /* 2.5 Flash models: skip the slow "thinking" step, translation does not need it */
-    if(!noThink && /^gemini-2\.5-flash/.test(model)) gc.thinkingConfig={ thinkingBudget:0 };
-    return {
-      systemInstruction:{ parts:[{text:system}] },
-      contents:[{ role:'user', parts:[{text:user}] }],
-      generationConfig:gc,
-      safetySettings:['HARM_CATEGORY_HARASSMENT','HARM_CATEGORY_HATE_SPEECH','HARM_CATEGORY_SEXUALLY_EXPLICIT','HARM_CATEGORY_DANGEROUS_CONTENT']
-        .map(category=>({category, threshold:'BLOCK_ONLY_HIGH'}))
-    };
+  const body={
+    systemInstruction:{ parts:[{text:system}] },
+    contents:[{ role:'user', parts:[{text:user}] }],
+    generationConfig:{ temperature: temp ?? (json ? 0.9 : 0.4) },
+    safetySettings:['HARM_CATEGORY_HARASSMENT','HARM_CATEGORY_HATE_SPEECH','HARM_CATEGORY_SEXUALLY_EXPLICIT','HARM_CATEGORY_DANGEROUS_CONTENT']
+      .map(category=>({category, threshold:'BLOCK_ONLY_HIGH'}))
   };
-  let noThink=false, retried=false, r, d;
-  for(;;){
-    try{
-      r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,{
-        method:'POST', headers:{'Content-Type':'application/json','x-goog-api-key':key}, body:JSON.stringify(build(noThink)) });
-    }catch(e){ throw new Error('No internet connection.'); }
-    d=await r.json().catch(()=>({}));
-    if(r.ok) break;
-    const msg=d.error?.message||'';
-    if(r.status===400 && !noThink && /think/i.test(msg)){ noThink=true; continue; }
-    if([500,502,503].includes(r.status) && !retried){ retried=true; await new Promise(z=>setTimeout(z,1400)); continue; }
-    throw new Error(friendlyErr(r.status,msg));
-  }
+  if(json) body.generationConfig.responseMimeType='application/json';
+  let r;
+  try{
+    r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,{
+      method:'POST', headers:{'Content-Type':'application/json','x-goog-api-key':key}, body:JSON.stringify(body) });
+  }catch(e){ throw new Error('No internet connection.'); }
+  const d=await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(d.error?.message || ('Error '+r.status));
   if(d.promptFeedback?.blockReason) throw new Error('Blocked by Gemini filter.');
   const c=d.candidates?.[0];
   const text=(c?.content?.parts||[]).filter(p=>!p.thought).map(p=>p.text||'').join('').trim();
   if(!text) throw new Error(c?.finishReason==='SAFETY' ? 'Blocked by Gemini safety filter.' : 'No response from Gemini.');
   return text;
 }
-
-/* ---------- Prompts ---------- */
-const TONES={
-  santai:{
-    d:'casual, natural spoken Indonesian, like chatting with someone close (aku/kamu). Use relaxed everyday words (nggak, udah, banget, kayak, gimana, emang) and natural particles (sih, dong, deh, kok, ya) where a real person would say them, but do not overdo it.',
-    ex:'*Dia memiringkan kepala, seulas senyum jahil tersungging di bibirnya.* "Oh ya? Emang kamu kuat ngadepin aku, sayang?"',
-    show:'“Kamu udah makan belum?”'},
-  gaul:{
-    d:'relaxed Jakarta-style slang, spoken (gue/lo, nggak/gak, udah, banget, ngapain, kayak). Playful and lively, never vulgar unless the original is.',
-    ex:'*Dia memiringkan kepala, seulas senyum jahil tersungging di bibirnya.* "Oh ya? Lo yakin bisa ngadepin gue, sayang?"',
-    show:'“Lo udah makan belum?”'},
-  formal:{
-    d:'polite, tidy Indonesian (saya/Anda where it fits, otherwise kamu), but still warm and speakable. It must sound like a real person talking, never like a textbook or an official letter.',
-    ex:'*Dia memiringkan kepala, seulas senyum jahil tersungging di bibirnya.* "Oh, benarkah? Kamu yakin sanggup mengimbangiku, sayang?"',
-    show:'“Apakah kamu sudah makan?”'}
+const TONE={
+  santai:'casual, natural everyday Indonesian (aku/kamu)',
+  gaul:'Jakarta slang Indonesian (gue/lo), relaxed',
+  formal:'standard, polite Indonesian (Bahasa baku)'
 };
-const T=()=>TONES[store.get('tone','santai')]||TONES.santai;
 const FORMAT_RULES=`FORMAT RULES (very important):
 - Text inside *asterisks* is ACTION/NARRATION: translate it but keep the asterisks.
-- Text inside "double quotes" is DIALOGUE: translate it but keep the quotes (curly quotes stay curly).
-- Text in (parentheses) or [brackets] is out-of-character (OOC): keep the brackets and translate it plainly.
-- Keep line breaks, paragraph order, emoji and names exactly as they are. Never add * or " markers that are not in the source.
-- Do not add, remove, censor, soften, summarize or explain anything. Keep the intensity and mood of the original, including romantic or intense scenes.
-- Output ONLY the translated text, with no notes or labels.`;
-const AGAIN='\nThe user wants a DIFFERENT version than the previous one: keep the exact meaning, but choose different words and sentence structure.';
-
-function rpContext(){
-  const clean=s=>String(s||'').replace(/[\r\n]+/g,' ').trim().slice(0,40);
-  const n=clean(store.get('charName','')), cg=store.get('charGender','auto'), mg=store.get('meGender','auto');
-  const g=v=>v==='male'?'male (he/him)':v==='female'?'female (she/her)':'';
-  const L=[];
-  if(n || g(cg)) L.push(`The AI character${n?` is named ${n}`:''}${g(cg)?`${n?' and is':' is'} ${g(cg)}`:''}.`);
-  if(g(mg)) L.push(`The user's own character is ${g(mg)}.`);
-  return L.length ? 'CONTEXT: '+L.join(' ')+'\n' : '';
-}
-function sysToId(){
-  const t=T();
-  return `You translate messages from an AI companion roleplay chat from English into Indonesian.
-DIALOGUE (text in "quotes"): translate it the way a real person would SAY it, in ${t.d} Keep the speaker's attitude, teasing, hesitation and emotion. Translate the meaning, not word for word: idioms, slang and jokes become natural Indonesian equivalents. Endearments such as darling, babe, love or honey become natural ones like "sayang". Keep sounds, stutters and CAPS emphasis (hmm, ah, w-wait, ...).
-ACTIONS / NARRATION (text in *asterisks*): translate into clear, natural written Indonesian that is easy to picture. It may be a little more descriptive than the dialogue, but not stiff or overly literary, and it stays in this same neutral style whatever the dialogue style is. Keep the person of the original (he/she/they become "dia"/"mereka", I becomes "aku", or "saya" in the formal style). Use a name instead of "dia" only if the original does.
-Example input:
-*She tilts her head, a playful smirk tugging at her lips.* "Oh really? You think you can handle me, darling?"
-Example output:
-${t.ex}
-Before you answer, check that every dialogue line sounds like something a real person would actually say out loud.
-${FORMAT_RULES}`;
-}
-function sysToEn(){
-  return `You translate the user's roleplay reply from Indonesian into English for an AI companion chat.
-${rpContext()}DIALOGUE (text in "quotes"): write it the way a real person would say or text it, in casual, natural spoken English: contractions (I'm, don't, you're), natural fillers, the same attitude and emotion. Translate the meaning, not word for word. Indonesian particles and slang (sih, dong, deh, kok, nih, banget, nggak) become natural English equivalents, never literal ones. "sayang" becomes babe, honey, love or sweetheart depending on the mood. Keep the user's point of view (aku = I).
-ACTIONS (text in *asterisks*): write clear, vivid, natural English narration. Indonesian has no tense and no gendered pronouns, so: use the tense of the character's last message when it is given (present tense if not); if an action has no subject, keep it without a subject (*smiles softly*); if it has one, keep that person (aku = I, dia = he/she/the name); use the genders from CONTEXT for he/she/his/her, and when they are unknown prefer neutral wording or the name instead of guessing.
-Example input:
-*menyelipkan rambut ke belakang telinga, pipinya sedikit memerah* "Hehe, iya deh. Aku ikut kamu aja, kok."
-Example output:
-*tucks a strand of hair behind one ear, cheeks turning a little pink* "Hehe, okay, fine. I'll just follow your lead."
-Before you answer, check that every dialogue line sounds like something a real person would actually say.
-${FORMAT_RULES}`;
-}
-
-/* ---------- Gemini app hand-off (no API) ---------- */
-const GEMINI_URL='https://gemini.google.com/app';
-const HANDOFF_RULE='Put your ENTIRE answer inside ONE code block (```), with nothing before or after it.';
-const HO_LABEL={toId:'translation', toEn:'English reply', ideas:'ideas'};
-function mode(){ return store.get('mode', store.get('apiKey') ? 'api' : 'app'); }
-async function handoff(kind, system, user){
-  await copyText(`${system}\n${HANDOFF_RULE}\n\n==========\n${user}`);
-  store.set('pending', kind); showHandoff();
-  toast('Prompt copied. Paste it in Gemini.');
-  window.open(GEMINI_URL, '_blank', 'noopener');
-}
-function showHandoff(){
-  const k=store.get('pending'); if(!k) return;
-  $('handoffText').textContent=`Waiting for the ${HO_LABEL[k]||'result'}. In Gemini, tap the copy icon on the code block, then come back.`;
-  $('handoffIn').hidden=true; $('handoffIn').value='';
-  $('handoff').classList.add('show'); document.body.classList.add('ho');
-}
-function hideHandoff(){
-  store.del('pending'); $('handoffIn').blur();
-  $('handoff').classList.remove('show'); document.body.classList.remove('ho');
-}
-function cleanResult(t){
-  t=(t||'').trim();
-  const m=t.match(/```[\w-]*\n?([\s\S]*?)\n?```/);
-  return (m ? m[1] : t).trim();
-}
-function applyResult(raw){
-  if((raw||'').includes(HANDOFF_RULE)) return toast("That's the prompt. Copy Gemini's answer instead.");
-  const kind=store.get('pending'), out=cleanResult(raw);
-  if(!out) return toast('Nothing to paste yet');
-  if(kind==='toId'){ render($('outId'), out); store.set('ctxId', out); updateCtx(); syncRetry(); go(0); }
-  else if(kind==='toEn'){ render($('outEn'), out); store.set('outEn', out); syncRetry(); go(1);
-    setTimeout(()=>$('btnCopyEn').scrollIntoView({behavior:'smooth',block:'nearest'}),400); }
-  else if(kind==='ideas'){
-    const list=parseIdeas(out);
-    if(!list.length) return toast("Couldn't read the ideas. Copy Gemini's answer again.");
-    openIdeas(); $('ideasTitle').textContent = scene() ? 'Ideas for this scene' : 'General ideas'; renderIdeas(list.slice(0,4)); ideasDone=scene(); ideasDraft=$('inId').value.trim(); go(1);
-  }
-  hideHandoff(); buzz();
-}
-$('btnPasteResult').onclick=async()=>{
-  let t=''; try{ t=await navigator.clipboard.readText(); }catch(e){}
-  if(t) return applyResult(t);
-  const ta=$('handoffIn'); ta.hidden=false; ta.focus();
-  toast('Long-press the box and tap Paste');
-};
-$('handoffIn').addEventListener('input',e=>{
-  if(e.inputType && e.inputType!=='insertFromPaste') return;
-  if(e.target.value.trim()) applyResult(e.target.value);
-});
-$('btnHandoffX').onclick=hideHandoff;
-document.addEventListener('visibilitychange',()=>{
-  if(!document.hidden && store.get('pending') && !$('handoff').classList.contains('show')) showHandoff();
-});
+- Text inside "double quotes" is DIALOGUE: translate it but keep the double quotes.
+- Keep line breaks, paragraph order, emoji, names, and OOC brackets exactly as they are.
+- Do not add, remove, censor, summarize, or explain anything.
+- Output ONLY the translated text.`;
+const tone=()=>TONE[store.get('tone','santai')]||TONE.santai;
 
 /* ---------- READ ---------- */
 const PH_ID='The translation will appear here.', PH_EN='Your English reply will appear here.';
-function syncRetry(){
-  $('btnRetryId').hidden=!store.get('ctxId');
-  $('btnRetryEn').hidden=!store.get('outEn');
-}
 $('btnPaste').onclick=async()=>{
   try{ const t=await navigator.clipboard.readText(); if(!t) return toast('Clipboard is empty');
     $('inEn').value=t; autoGrow($('inEn')); store.set('inEn',t); buzz(); }
   catch(e){ toast('Long-press the box and tap Paste'); }
 };
 $('btnClearEn').onclick=()=>{ $('inEn').value=''; store.del('inEn'); autoGrow($('inEn')); };
-async function doToId(again){
-  const b=$('btnToId'); if(b.disabled) return;
+$('btnToId').onclick=async()=>{
   const src=$('inEn').value.trim(); if(!src) return toast('Paste a message first');
-  const prev=$('outId').dataset.raw;
-  let sys=sysToId(), user=src;
-  if(again && prev){ sys+=AGAIN; user=`Translate this message:\n${src}\n\n---\nPrevious translation (write a different version, do not copy it):\n${prev}`; }
-  if(mode()==='app'){ store.set('ctxEn',src); return handoff('toId', sys, user); }
-  busy(b,true,'Translating…'); skeleton($('outId'));
+  const b=$('btnToId'); busy(b,true,'Translating…'); skeleton($('outId'));
   try{
-    const out=await gemini(sys, user, {temp: again?0.85:0.5});
+    const out=await gemini(`You translate AI companion roleplay chat messages from English into ${tone()}. Make it sound natural and expressive like a novel, not stiff machine translation.\n${FORMAT_RULES}`, src);
     render($('outId'), out); store.set('ctxEn',src); store.set('ctxId',out); updateCtx(); buzz();
   }catch(e){ render($('outId'), store.get('ctxId'), PH_ID); toast(e.message); }
-  busy(b,false); syncRetry();
-}
-$('btnToId').onclick=()=>doToId(false);
-$('btnRetryId').onclick=()=>doToId(true);
+  busy(b,false);
+};
 $('btnCopyId').onclick=e=>{ const t=$('outId').dataset.raw; t ? copyText(t, e.currentTarget) : toast('Nothing to copy yet'); };
 $('btnGoReply').onclick=()=>go(1);
 
@@ -749,227 +494,152 @@ function updateCtx(){
   $('ctxText').textContent = c || 'No message yet. Translate one in Read first (optional).';
 }
 $('ctx').onclick=()=>$('ctx').classList.toggle('open');
-function flash(ta){ ta.classList.remove('flash'); void ta.offsetWidth; ta.classList.add('flash'); }
-function insertText(txt, caretBack=0, focus=true){
+function insertText(txt, caretBack=0){
   const ta=$('inId'); const s=ta.selectionStart ?? ta.value.length, e=ta.selectionEnd ?? s;
   const before=ta.value.slice(0,s), after=ta.value.slice(e);
   const pre = before && !/\s$/.test(before) ? ' ' : '';
   const post = !caretBack && after && !/^\s/.test(after) ? ' ' : '';
   ta.value = before+pre+txt+post+after;
   const pos = before.length+pre.length+txt.length-caretBack+(caretBack?0:post.length);
-  if(focus) ta.focus();
-  try{ ta.setSelectionRange(pos,pos); }catch(err){}
-  autoGrow(ta); store.set('inId',ta.value);
+  ta.focus(); ta.setSelectionRange(pos,pos); autoGrow(ta); store.set('inId',ta.value);
 }
 function wrap(open, close){
   const ta=$('inId'); const s=ta.selectionStart, e=ta.selectionEnd;
   if(s!==e){ ta.setRangeText(open+ta.value.slice(s,e)+close, s, e, 'end'); ta.focus(); store.set('inId',ta.value); return; }
-  /* caret is just before the closing " or * of an open pair: step out of it first, so the new pair is not nested inside */
-  const ch=ta.value[s];
-  if((ch==='"'||ch==='*') && (ta.value.slice(0,s).split(ch).length-1)%2===1){ try{ ta.setSelectionRange(s+1,s+1); }catch(err){} }
   insertText(open+close, close.length);
 }
 $('btnAddDialog').onclick=()=>wrap('"','"');
 $('btnAddAction').onclick=()=>wrap('*','*');
 $('btnClearId').onclick=()=>{ $('inId').value=''; store.del('inId'); $('chips').innerHTML=''; autoGrow($('inId')); };
-
-/* ----- action ideas: read the scene (the character's last message) and suggest short actions ----- */
-const EMO={sweet:'🥰',playful:'😜',flirty:'😏',shy:'😳',bold:'😎',caring:'🤗',sad:'🥺',upset:'😤'};
-/* built-in scene reader (instant, works offline, no API key): picks short actions by what happens in the message */
-const TAGS={
-  kiss:{e:'😘',re:/\b(kiss(es|ed|ing)?|peck(s|ed)?|lips (meet|touch\w*|brush\w*|press\w*|graze\w*|almost|nearly|inches)|(touch\w*|brush\w*|press\w*) (her|his|their|your) lips)\b/g,a:[
-    'memejamkan mata dan membiarkannya mendekat','menahan napas, jantung berdebar kencang','membalas dengan kecupan singkat di pipi',
-    'menutup bibir dengan jari sambil tersipu','memalingkan wajah, pipinya memerah','menarik kerah bajunya pelan agar mendekat',
-    'tersenyum kecil tanpa menjauh sedikit pun','mengusap pipinya dengan ibu jari']},
-  hug:{e:'🤗',re:/\b(hug(s|ged|ging)?|embrac\w*|arms around|wraps? (her|his|their) arms|holds you|pulls you (in|close)|cuddl\w*|snuggl\w*|lap)\b/g,a:[
-    'membalas pelukannya erat-erat','membenamkan wajah di bahunya','menyandarkan kepala di dadanya','melingkarkan tangan di punggungnya',
-    'menghela napas lega dalam pelukannya','mengusap punggungnya pelan','memejamkan mata, merasakan hangatnya','tertawa kecil di dalam pelukannya']},
-  hand:{e:'🥰',w:.5,re:/\b(hands?|fingers?|fingertips|holds? your|takes? your|squeez\w*|intertwin\w*|grabs? your|wrist)\b/g,a:[
-    'menggenggam tangannya balik','melirik tangan mereka yang bertaut','menautkan jari-jari dengan jarinya','meremas tangannya pelan',
-    'tidak melepaskan genggamannya','mengusap punggung tangannya dengan ibu jari','menarik tangannya pelan agar mendekat','menatap tangannya, lalu tersenyum']},
-  tease:{e:'😏',re:/\b(smirk\w*|teas(e|es|ed|ing)|wink\w*|playful\w*|raises? (an |one |a )?eyebrow|flirt\w*|mischiev\w*|darling|babe)\b/g,a:[
-    'mengangkat sebelah alis, balas menggoda','pura-pura cuek sambil menahan senyum','menjulurkan lidah sekilas','mencondongkan badan dengan senyum miring',
-    'melipat tangan dan menantangnya dengan senyum','mengedipkan mata sambil terkekeh','menyenggol bahunya pelan','memutar bola mata sambil tersenyum']},
-  shy:{e:'🌸',re:/\b(blush\w*|flustered|shy\w*|nervous\w*|stutter\w*|stammer\w*|fidget\w*|embarrass\w*|bashful|look(s|ed)? away|averts?)\b/g,a:[
-    'tersenyum lembut untuk menenangkannya','menunggu dengan sabar tanpa memaksa','menyentuh bahunya pelan','menunduk sedikit agar sejajar dengannya',
-    'tertawa kecil, gemas melihatnya','berbicara lebih pelan dan lembut','menggeser duduk sedikit lebih dekat','mengangguk pelan, memberi semangat']},
-  sad:{e:'🤍',re:/\b(cry|cries|crying|cried|tears?|sob\w*|sad\w*|lonely|miss(es|ed)? you|hurt\w*|sigh\w*|heartbr\w*|trembl\w*|whimper\w*|choked|quiver\w*)\b/g,a:[
-    'duduk di sebelahnya tanpa berkata apa-apa','mengulurkan tisu dengan lembut','mengusap bahunya pelan','menatapnya dengan penuh perhatian',
-    'menarik napas pelan, siap mendengarkan','menggenggam tangannya dengan hangat','merapikan rambut yang menutupi wajahnya','memeluknya pelan dari samping']},
-  upset:{e:'😤',re:/\b(angry|anger|glar\w*|frown\w*|scowl\w*|jealous\w*|annoy\w*|irritat\w*|furious|frustrat\w*|clench\w*)\b/g,a:[
-    'mundur selangkah sambil mengangkat kedua tangan','menatapnya tenang tanpa membalas amarahnya','menarik napas dalam sebelum menjawab',
-    'menjelaskan dengan suara pelan dan tenang','menunduk sebentar, merasa bersalah','mendekat pelan dengan tangan terbuka',
-    'menyilangkan tangan, tidak mau kalah','membuang muka sambil menahan kesal']},
-  happy:{e:'😄',re:/\b(laugh\w*|giggl\w*|chuckl\w*|grin(s|ned|ning)?|beam\w*|cheerful|excited|happy|joy\w*|sparkl\w*|(big|wide|bright|huge) smile)\b/g,a:[
-    'ikut tertawa melihatnya','tersenyum lebar, tertular senyumnya','menyenggol lengannya sambil tertawa','menatapnya dengan mata berbinar',
-    'bertepuk tangan kecil karena senang','menutup mulut menahan tawa','menggeleng pelan sambil tersenyum geli','mengacak rambutnya pelan']},
-  close:{e:'💓',re:/\b(whisper\w*|lean\w* (in|closer|down|forward)|closer|breath\w*|inches|face to face|steps? (closer|forward))\b/g,a:[
-    'menatap matanya lekat tanpa bergerak','menahan napas sejenak','membalas dengan bisikan pelan','mengangkat dagu, membalas tatapannya',
-    'menelan ludah, jantung berdebar','mundur sedikit sambil tersenyum gugup','memiringkan kepala, mendengarkan lebih dekat','menyentuh dadanya pelan dengan satu jari']},
-  sleepy:{e:'😴',re:/\b(yawn\w*|sleepy|tired|bed|blanket|pillow|midnight|sleep\w*|nap|drows\w*|exhaust\w*)\b/g,a:[
-    'menarik selimut sampai menutupi bahunya','menguap kecil sambil tersenyum','menyandarkan kepala ke bantal','berbisik, menyuruhnya segera istirahat',
-    'mematikan lampu pelan-pelan','mengusap rambutnya sampai ia tenang','merapat pelan mencari kehangatan','mengucek mata yang masih mengantuk']},
-  drink:{e:'☕',re:/\b(coffee|tea|cup|mug|drink\w*|wine|sip\w*|latte|cocoa|beer|juice)\b/g,a:[
-    'mengambil cangkir lalu menyesapnya pelan','menghirup aroma minumannya sambil tersenyum','mengangkat gelas seolah mengajak bersulang','menggenggam cangkir dengan kedua tangan',
-    'menyesap pelan sambil menatapnya','meniup minuman yang masih panas','menggeser cangkirnya lebih dekat','menaruh cangkir pelan di atas meja']},
-  food:{e:'🍴',re:/\b(cook\w*|dinner|lunch|breakfast|food|eat\w*|meal|snack|cake|chocolate|kitchen|bak(e|es|ed|ing)|restaurant|menu|bowl|plate|pancakes?|soup|pizza|sandwich|dessert|fruit)\b/g,a:[
-    'mencicipi sedikit, lalu mengangguk puas','menggeser piring ke arahnya','mengambilkan makanan untuknya','tertawa kecil sambil mengunyah',
-    'mengelap sudut bibirnya dengan tisu','melirik makanannya dengan wajah penasaran','mengambil satu suapan dan memejamkan mata','menepuk perut sambil tersenyum puas']},
-  cold:{e:'🌧️',re:/\b(rain\w*|cold|shiver\w*|wind(s|y)?|snow\w*|coat|jacket|umbrella|storm\w*|thunder|chill\w*|freez\w*)\b/g,a:[
-    'merapatkan jaket sambil menggigil kecil','membuka payung dan mengangkatnya di atas mereka','menggosok kedua tangan agar hangat','menyampirkan jaket ke bahunya',
-    'menatap hujan dari balik jendela','merapat sedikit untuk berbagi hangat','meniup telapak tangan yang dingin','tertawa kecil sambil menghindari tetesan hujan']},
-  place:{e:'🌙',w:.7,re:/\b(walk\w*|park|beach|sunset|sunrise|stars?|moon\w*|garden|street|city|balcony|rooftop|sea|ocean|lake|river|window)\b/g,a:[
-    'menatap langit sambil tersenyum tenang','berjalan pelan di sampingnya','memejamkan mata menikmati angin','menunjuk sesuatu di kejauhan',
-    'berjalan santai dengan tangan di saku','berhenti sebentar memandangi sekitar','menarik napas dalam, menikmati suasana','menoleh padanya dengan senyum tipis']},
-  ask:{e:'💭',re:null,a:[
-    'berpikir sebentar sambil mengetuk dagu','menggaruk pipi, bingung mau menjawab apa','tersenyum dulu sebelum menjawab','menarik napas sebelum berbicara',
-    'mengangguk pelan sambil menatapnya','menggeleng pelan sambil tersenyum','menatapnya sebentar, lalu menjawab','memiringkan kepala, pura-pura berpikir']},
-  plain:{e:'✨',re:null,a:[
-    'tersenyum kecil sambil menatapnya','menyelipkan rambut ke belakang telinga','mencondongkan badan untuk mendengarkan','tertawa kecil sambil menggeleng',
-    'melipat tangan sambil tersenyum tipis','menghela napas pelan, lebih rileks','menatapnya dengan penuh perhatian','bersandar santai sambil tersenyum']}
+$('btnSuggest').onclick=async()=>{
+  const b=$('btnSuggest'); b.disabled=true; const old=b.innerHTML; b.innerHTML='<span class="spin" style="border-top-color:#d9ccff"></span>';
+  try{
+    const raw=await gemini(
+      `You help a user write roleplay replies. Suggest 4 short, varied ACTIONS (body language, gestures, expressions, movements) the user's character could do in their reply. Write them in ${tone()}, 2-8 words each, without asterisks, as present-tense actions without a subject (e.g. "tersenyum kecil sambil menunduk"). Fit the mood of the scene. Return a JSON array of 4 strings only.`,
+      `Character's last message:\n${store.get('ctxEn')||'(none)'}\n\nUser's draft reply (Indonesian):\n${$('inId').value.trim()||'(empty)'}`, true);
+    let list; try{ list=JSON.parse(raw); }catch(e){ list=raw.split('\n').map(s=>s.replace(/^[\s\-\d.*"]+|["*,\]]+$/g,'')).filter(Boolean); }
+    const box=$('chips'); box.innerHTML='';
+    list.slice(0,6).forEach((s,k)=>{
+      s=String(s).replace(/^\*+|\*+$/g,'').trim(); if(!s) return;
+      const c=document.createElement('button'); c.className='chip'; c.style.animationDelay=(k*50)+'ms'; c.textContent=s;
+      c.onclick=()=>{ insertText('*'+s+'*'); c.remove(); buzz(); };
+      box.appendChild(c);
+    });
+  }catch(e){ toast(e.message); }
+  b.disabled=false; b.innerHTML=old;
 };
-let shownIdeas=[], ideasSeq=0, ideasDone=null, ideasBusy='', ideasDraft='';
-const scene=()=>(store.get('ctxEn')||'').trim();
-function sceneTags(text){
-  const t=(text||'').toLowerCase(), out=[];
-  Object.keys(TAGS).forEach(k=>{ const re=TAGS[k].re; if(!re) return; const m=t.match(re); if(m) out.push([k,m.length*(TAGS[k].w||1)]); });
-  out.sort((a,b)=>b[1]-a[1]);
-  const keys=out.map(x=>x[0]).slice(0,3);
-  if(/\?/.test(t)) keys.splice(Math.min(1,keys.length),0,'ask'); /* a question in the message gets second place */
-  return keys.slice(0,3);
-}
-function quickIdeas(text,n=4){
-  const keys=sceneTags(text); keys.push('plain');
-  const inKeys=t=>keys.some(k=>TAGS[k].a.includes(t));
-  const out=[];
-  const fill=()=>{
-    const pools=keys.map(k=>({k,list:shuffle(TAGS[k].a.filter(t=>!shownIdeas.includes(t)&&!out.some(o=>o.t===t)))}));
-    const seq=[]; pools.forEach((p,i)=>{ if(p.k==='plain') return; for(let z=0;z<(i===0?2:1);z++) seq.push(i); });
-    const pl=pools[pools.length-1];
-    let g=0;
-    while(out.length<n && g++<60){
-      let added=false;
-      for(const i of seq){ if(out.length>=n) break; const p=pools[i]; if(p.list.length){ out.push({e:TAGS[p.k].e,t:p.list.pop()}); added=true; } }
-      if(!added) break;
-    }
-    while(out.length<n && pl.list.length) out.push({e:TAGS.plain.e,t:pl.list.pop()});
+/* --- Reply translation: the app owns the formatting (quotes / asterisks); Gemini only translates the pieces ---
+   plain text = dialogue -> "..."   |   *...* = action   |   (( )) [ ] (OOC ...) = out-of-character, kept as is   */
+const PH_MEAN='The Indonesian meaning will appear here.';
+function parseReply(src){
+  const segs=[], out=[];
+  const re=/(\*\*[^*\n]+?\*\*|\*[^*\n]+?\*)|("[^"\n]+?"|“[^”\n]+?”)|(\(\([^\n]*?\)\)|\[[^\]\n]+?\]|\(OOC[^)\n]*\))/gi;
+  const add=(o)=>{ segs.push(o); out.push({seg:segs.length-1}); };
+  const plain=(gap)=>{
+    const m=gap.match(/^(\s*)([\s\S]*?)(\s*)$/);
+    if(m[1]) out.push({ws:m[1]});
+    m[2].split(/(\n+)/).forEach(p=>{
+      if(!p) return;
+      if(/^\n+$/.test(p)){ out.push({ws:p}); return; }
+      const t=p.replace(/[*"“”]/g,'').trim();
+      if(t) add({t:'d',text:t});
+    });
+    if(m[3]) out.push({ws:m[3]});
   };
-  fill();
-  if(out.length<n){ /* ran low: forget older ideas, but not the batch that is on screen */
-    const recent=shownIdeas.slice(-n);
-    shownIdeas=shownIdeas.filter(t=>!inKeys(t)||recent.includes(t)); fill();
+  let last=0, m;
+  while((m=re.exec(src))){
+    if(m.index>last) plain(src.slice(last,m.index));
+    if(m[1]){ const mk=m[1].startsWith('**')?'**':'*'; const t=m[1].slice(mk.length,-mk.length).trim(); if(t) add({t:'a',mk,text:t}); }
+    else if(m[2]){ const t=m[2].slice(1,-1).trim(); if(t) add({t:'d',text:t}); }
+    else add({t:'o',text:m[3]});
+    last=re.lastIndex;
   }
-  if(out.length<n){ shownIdeas=shownIdeas.filter(t=>!inKeys(t)); fill(); }
-  return out;
+  if(last<src.length) plain(src.slice(last));
+  return {segs,out};
 }
-function ideasSystem(){
-  const avoid=shownIdeas.slice(-12);
-  return `You help a user roleplay in an AI companion chat. Read the SCENE (the character's last message) and suggest 4 short ACTIONS the user's own character could do next, in Indonesian.
-${rpContext()}RULES:
-- Every action must react to something SPECIFIC in the scene: a gesture, an object, the place, the mood, or a question that was asked. No generic filler that would fit any scene.
-- Do not invent new places, people, objects or events. Use only details from the scene, plus small natural body movements.
-- Keep it SHORT: 4 to 9 words, one simple movement or reaction. Plain everyday Indonesian, no subject, no asterisks, no slang, nothing poetic.
-- The 4 actions must feel different from each other (for example one sweet, one playful, one bold or flirty, one shy or caring). Pick what fits the scene: if the scene is sad or tense, use gentle, comforting or serious reactions instead of playful ones.
-- If the user's draft reply is given, the actions must match what they are saying and never contradict it.
-${avoid.length?`- Do NOT repeat or paraphrase these earlier ideas: ${avoid.join(' | ')}\n`:''}Example scene: *She sets down her coffee and leans closer, a teasing smile on her lips.* "So... are you going to tell me what you did last night?"
-Example output: [{"mood":"shy","action":"memalingkan wajah sambil menahan senyum"},{"mood":"playful","action":"menyilangkan tangan, pura-pura tutup mulut"},{"mood":"flirty","action":"balas mencondongkan badan dengan senyum miring"},{"mood":"sweet","action":"menyentuh cangkirnya pelan sambil tertawa kecil"}]
-Return ONLY a JSON array of 4 objects like that. Allowed moods: sweet, playful, flirty, shy, bold, caring, sad, upset.`;
+function buildReply(parsed, tr, added, field){
+  const wrapSeg=(s,txt)=> s.t==='a' ? s.mk+txt+s.mk : s.t==='d' ? '"'+txt+'"' : txt;
+  const bits=parsed.out.map(c=> c.ws!==undefined ? {ws:c.ws} : {s:wrapSeg(parsed.segs[c.seg], tr[c.seg])});
+  if(added){ const a={s:'*'+added[field]+'*'}; if(added.pos==='after') bits.push(a); else bits.unshift(a); }
+  let res='', prevS=false;
+  bits.forEach(b=>{ if(b.ws!==undefined){ res+=b.ws; prevS=false; } else { if(prevS) res+=' '; res+=b.s; prevS=true; } });
+  return res.trim();
 }
-function ideasUser(){
-  return `SCENE (the character's last message):\n${scene()||'(none)'}\n\nUser's draft reply so far (Indonesian):\n${$('inId').value.trim()||'(empty)'}`;
+const cleanPiece=s=>String(s==null?'':s).replace(/^[\s*"“”]+|[\s*"“”]+$/g,'').trim();
+function parseJSONLoose(raw){
+  const t=String(raw).trim().replace(/^```(?:json)?\s*|\s*```$/g,'');
+  try{ return JSON.parse(t); }
+  catch(e){ const a=t.indexOf('{'), z=t.lastIndexOf('}'); if(a>=0&&z>a) return JSON.parse(t.slice(a,z+1)); throw e; }
 }
-function parseIdeas(raw){
-  const t=cleanResult(raw); let list=null;
-  try{
-    let d=JSON.parse(t);
-    if(d && !Array.isArray(d) && typeof d==='object') d=d.ideas||d.actions||Object.values(d).find(Array.isArray);
-    if(Array.isArray(d)) list=d;
-  }catch(e){}
-  if(!list){ const m=t.match(/\[[\s\S]*\]/); if(m){ try{ const d=JSON.parse(m[0]); if(Array.isArray(d)) list=d; }catch(e){} } }
-  if(!list){
-    list=t.split('\n').map(s=>s.replace(/^[\s\-\d.*"\[]+|["*,\]\s]+$/g,'')).filter(Boolean);
-    if(list.length<2) list=[]; /* one stray line is not a list of ideas */
+const fmtErr=()=>Object.assign(new Error('format'),{fmt:true});
+async function translateReply(src){
+  const parsed=parseReply(src);
+  if(!parsed.segs.length) throw new Error('Write your reply first');
+  const hasAction=parsed.segs.some(s=>s.t==='a'), hasDialogue=parsed.segs.some(s=>s.t==='d');
+  const wantAdd = store.get('autoAct','on')==='on' && !hasAction && hasDialogue;
+  const ctx=store.get('ctxEn');
+  const TYPE={a:'action',d:'dialogue',o:'ooc'};
+  const system=`You translate a user's roleplay reply from Indonesian into natural, fluent, immersive English for a roleplay chat, and you also explain in Indonesian what your final English means.
+The reply is split into numbered segments. Rules:
+- For every segment return "en": its English translation WITHOUT any quotation marks or asterisks (the app adds those itself).
+  - type "dialogue": spoken words. Indonesian slang becomes natural casual English.
+  - type "action": body language / narration. Keep the user's point of view and the user's style (if it has no subject, write it without a subject, e.g. "smiles shyly").
+  - type "ooc": an out-of-character note. Translate it but keep its brackets or parentheses exactly.
+- Keep the user's meaning, tone, point of view (first person stays first person), names and emoji. Do not add, remove, censor, summarize or explain anything inside the segments.
+- For every segment also return "id": what YOUR ENGLISH means, written in ${tone()}. It must follow the English faithfully (a back-translation the user reads to check it). No quotation marks or asterisks.
+- "scene" is the other character's last message. It is context only: never translate it.
+- If "add_action" is true, also return "add": ONE short action (3-12 words) for the user's character that fits the scene, the mood of the dialogue and the user's words. Present tense, no subject (like "glances away, fingers fidgeting with her sleeve"), no spoken words inside it, no asterisks. Fields: "pos" ("before" normally; "after" only if clearly better), "en", and "id" (its meaning in ${tone()}). If "add_action" is false, "add" must be null.
+- Output ONLY JSON: {"items":[{"i":0,"en":"...","id":"..."}],"add":null}`;
+  const payload={ scene: ctx||null, add_action: wantAdd, segments: parsed.segs.map((s,i)=>({i, type:TYPE[s.t], text:s.text})) };
+  const raw=await gemini(system, JSON.stringify(payload), true, 0.5);
+  let d; try{ d=parseJSONLoose(raw); }catch(e){ throw fmtErr(); }
+  const items=Array.isArray(d.items)?d.items:[];
+  const en=[], id=[];
+  for(let k=0;k<parsed.segs.length;k++){
+    const it=items.find(x=>x && +x.i===k); const seg=parsed.segs[k];
+    const e=seg.t==='o' ? String((it&&it.en)||'').trim() : cleanPiece(it&&it.en);
+    if(!e) throw fmtErr();
+    en[k]=e;
+    id[k]= seg.t==='o' ? String((it&&it.id)||seg.text).trim() : (cleanPiece(it&&it.id)||seg.text);
   }
-  return list.map(x=>{
-    const o=(x && typeof x==='object') ? x : {action:x};
-    const m=String(o.mood||o.m||'').toLowerCase().trim();
-    const tx=String(o.action||o.text||o.t||'').replace(/^\*+|\*+$/g,'').replace(/\s+/g,' ').trim();
-    return {e:EMO[m]||'✨',t:tx};
-  }).filter(x=>x.t);
+  let added=null;
+  if(wantAdd && d.add && cleanPiece(d.add.en)){
+    added={ pos: d.add.pos==='after'?'after':'before', en: cleanPiece(d.add.en), id: cleanPiece(d.add.id)||cleanPiece(d.add.en) };
+  }
+  return { en: buildReply(parsed,en,added,'en'), id: buildReply(parsed,id,added,'id'), addedId: added?added.id:'' };
 }
-function skeletonChips(){ const b=$('chips'); b.innerHTML=''; for(let i=0;i<4;i++){ const d=document.createElement('div'); d.className='skc'; b.appendChild(d); } }
-function renderIdeas(list){
-  const box=$('chips'); box.innerHTML='';
-  list.forEach((x,k)=>{
-    const c=document.createElement('button'); c.type='button'; c.className='chip'; c.style.animationDelay=(k*45)+'ms';
-    const em=document.createElement('span'); em.className='em'; em.textContent=x.e||'✨';
-    const tx=document.createElement('span'); tx.className='tx'; tx.textContent=x.t;
-    c.appendChild(em); c.appendChild(tx);
-    c.onclick=()=>{ insertText('*'+x.t+'*',0,false); flash($('inId')); c.remove(); buzz(); };
-    box.appendChild(c);
-    shownIdeas.push(x.t);
-  });
-  if(shownIdeas.length>80) shownIdeas=shownIdeas.slice(-80);
+function renderMeaning(text, addedId){
+  const el=$('outEnId'); render(el, text, PH_MEAN);
+  let has=false;
+  if(text && addedId){
+    const needle=`<span class="a">${esc('*'+addedId+'*')}</span>`;
+    if(el.innerHTML.includes(needle)){ el.innerHTML=el.innerHTML.replace(needle, `<span class="a added">${esc('*'+addedId+'*')}</span>`); has=true; }
+  }
+  $('addNote').hidden=!has;
 }
-function openIdeas(){ $('ideas').hidden=false; $('btnSuggest').classList.add('on'); }
-function closeIdeas(){ $('ideas').hidden=true; $('btnSuggest').classList.remove('on'); ideasSeq++; ideasBusy=''; $('btnMore').disabled=false; }
-function resetIdeas(){ closeIdeas(); $('chips').innerHTML=''; ideasDone=null; }
-async function loadIdeas(auto){
-  const sc=scene(), draft=$('inId').value.trim(), my=++ideasSeq, more=$('btnMore');
-  ideasDraft=draft;
-  const key=!!store.get('apiKey'), useAI=mode()==='api' && key && !!(sc||draft);
-  $('ideasTitle').textContent = sc ? 'Ideas for this scene' : 'General ideas';
-  const showQuick=note=>{ renderIdeas(quickIdeas(sc)); ideasDone=sc; if(note && !auto) toast(note); };
-  if(!useAI){ ideasBusy=''; showQuick(mode()==='api' && !key ? 'Add your API key for smarter ideas.' : ''); return; }
-  ideasBusy=sc; more.disabled=true; skeletonChips();
-  try{
-    const raw=await gemini(ideasSystem(), ideasUser(), {json:true, temp:0.8});
-    if(my!==ideasSeq) return;
-    let list=parseIdeas(raw);
-    const isNew=x=>!shownIdeas.some(s=>s.toLowerCase()===x.t.toLowerCase());
-    list=[...list.filter(isNew),...list.filter(x=>!isNew(x))]; /* new ideas first, repeats only to fill up */
-    const short=list.filter(x=>x.t.split(/\s+/).length<=14);
-    if(short.length>=2) list=short;
-    list=list.slice(0,4);
-    if(list.length<2) throw new Error('No ideas came back.');
-    renderIdeas(list); ideasDone=sc;
-  }catch(e){ if(my===ideasSeq) showQuick(e.message+' Showing quick ideas.'); }
-  finally{ if(my===ideasSeq){ more.disabled=false; ideasBusy=''; } }
-}
-/* opening Reply reads the scene by itself (unless set to Manual) */
-function autoIdeas(){
-  const sc=scene();
-  if(ideasDone!==null && ideasDone!==sc) resetIdeas(); /* the message changed: old ideas no longer fit */
-  if(store.get('autoIdeas','on')!=='on' || !sc || ideasDone===sc || ideasBusy===sc) return;
-  openIdeas(); loadIdeas(true);
-}
-$('btnSuggest').onclick=()=>{
-  if(!$('ideas').hidden) return closeIdeas();
-  openIdeas();
-  if(ideasDone!==scene() || ideasDraft!==$('inId').value.trim() || !$('chips').querySelector('.chip')) loadIdeas(false);
-};
-$('btnIdeasX').onclick=closeIdeas;
-$('btnMore').onclick=()=>loadIdeas(false);
-$('btnGeminiIdeas').onclick=()=>handoff('ideas', ideasSystem(), ideasUser());
-
-async function doToEn(again){
-  const b=$('btnToEn'); if(b.disabled) return;
+$('btnToEn').onclick=async()=>{
   const src=$('inId').value.trim(); if(!src) return toast('Write your reply first');
-  const ctx=store.get('ctxEn'), prev=$('outEn').dataset.raw;
-  let sys=sysToEn();
-  let user=(ctx?`(Context only, do NOT translate this) Character's last message:\n${ctx}\n\n`:'')+`Translate this reply:\n${src}`;
-  if(again && prev){ sys+=AGAIN; user+=`\n\n---\nPrevious translation (write a different version, do not copy it):\n${prev}`; }
-  if(mode()==='app') return handoff('toEn', sys, user);
-  busy(b,true,'Translating…'); skeleton($('outEn'));
+  const b=$('btnToEn'); busy(b,true,'Translating…'); skeleton($('outEn')); skeleton($('outEnId')); $('addNote').hidden=true;
   try{
-    const out=await gemini(sys, user, {temp: again?0.85:0.5});
-    render($('outEn'), out); store.set('outEn',out); buzz();
+    let res=null;
+    for(let k=0;k<2 && !res;k++){ try{ res=await translateReply(src); }catch(e){ if(!e.fmt) throw e; } }
+    if(res){
+      render($('outEn'), res.en); renderMeaning(res.id, res.addedId);
+      store.set('outEn',res.en); store.set('outEnId',res.id); store.set('outEnAdd',res.addedId);
+    }else{
+      /* safety net: the model did not return the expected format twice, fall back to the plain translation */
+      const ctx=store.get('ctxEn');
+      const out=await gemini(
+        `You translate the user's roleplay reply from Indonesian into natural, fluent, immersive English that fits a roleplay chat. Keep the user's meaning, tone and point of view (first person stays first person). Indonesian slang should become natural casual English.\n${FORMAT_RULES}`,
+        (ctx?`(Context only, do NOT translate this) Character's last message:\n${ctx}\n\n`:'')+`Translate this reply:\n${src}`);
+      render($('outEn'), out); renderMeaning('', ''); store.set('outEn',out); store.del('outEnId'); store.del('outEnAdd');
+      toast('Translated, but the Indonesian meaning is unavailable this time');
+    }
+    buzz();
     $('btnCopyEn').scrollIntoView({behavior:'smooth',block:'nearest'});
-  }catch(e){ render($('outEn'), store.get('outEn'), PH_EN); toast(e.message); }
-  busy(b,false); syncRetry();
-}
-$('btnToEn').onclick=()=>doToEn(false);
-$('btnRetryEn').onclick=()=>doToEn(true);
+  }catch(e){ render($('outEn'), store.get('outEn'), PH_EN); renderMeaning(store.get('outEnId'), store.get('outEnAdd')); toast(e.message); }
+  busy(b,false);
+};
 $('btnCopyEn').onclick=e=>{ const t=$('outEn').dataset.raw; t ? copyText(t, e.currentTarget) : toast('Nothing to copy yet'); };
 
 ['inEn','inId'].forEach(id=>{
@@ -984,28 +654,18 @@ function fillModels(list){
   sel.innerHTML=list.map(m=>`<option value="${esc(m)}" ${m===c?'selected':''}>${esc(m)}</option>`).join('');
 }
 $('model').onchange=e=>{ store.set('model', e.target.value); toast('Model: '+e.target.value); };
-function setSeg(id, v){
-  const btns=[...$(id).querySelectorAll('button')]; const i=Math.max(0,btns.findIndex(b=>b.dataset.v===v));
+function setTone(v){
+  const btns=[...$('tone').querySelectorAll('button')]; const i=Math.max(0,btns.findIndex(b=>b.dataset.v===v));
   btns.forEach((b,k)=>b.classList.toggle('on',k===i));
-  $(id).querySelector('.thumb').style.transform=`translateX(${i*100}%)`;
+  $('tone').querySelector('.thumb').style.transform=`translateX(${i*100}%)`;
 }
-function bindSeg(id, key, def, after){
-  setSeg(id, store.get(key,def));
-  $(id).querySelectorAll('button').forEach(b=>b.onclick=()=>{
-    store.set(key,b.dataset.v); setSeg(id,b.dataset.v); buzz(); if(after) after(b.dataset.v); });
+$('tone').querySelectorAll('button').forEach(b=>b.onclick=()=>{ store.set('tone',b.dataset.v); setTone(b.dataset.v); buzz(); });
+function setAuto(v){
+  const btns=[...$('autoAct').querySelectorAll('button')]; const i=Math.max(0,btns.findIndex(b=>b.dataset.v===v));
+  btns.forEach((b,k)=>b.classList.toggle('on',k===i));
+  $('autoAct').querySelector('.thumb').style.transform=`translateX(${i*100}%)`;
 }
-function toneEx(){ $('toneEx').innerHTML=`Example: <b>${T().show}</b>`; }
-function applyMode(){
-  const app=mode()==='app';
-  setSeg('mode', app ? 'app' : 'api');
-  ['keyCard','modelRow','btnLogout'].forEach(id=>{ $(id).hidden=app; });
-  $('modeHelp').innerHTML = app
-    ? "No API key needed. The app copies a ready prompt and opens Gemini. Copy Gemini's answer, come back, and tap <b>Paste result</b>."
-    : 'Translates right inside the app using your own Gemini API key.';
-  $('btnGeminiIdeas').hidden=!app;
-  setStatus();
-}
-$('mode').querySelectorAll('button').forEach(b=>b.onclick=()=>{ store.set('mode', b.dataset.v); applyMode(); buzz(); });
+$('autoAct').querySelectorAll('button').forEach(b=>b.onclick=()=>{ store.set('autoAct',b.dataset.v); setAuto(b.dataset.v); buzz(); });
 $('btnShowKey').onclick=()=>{ const k=$('apiKey'), show=k.type==='password'; k.type=show?'text':'password';
   $('btnShowKey').innerHTML=svg(show?'eyeoff':'eye'); };
 $('btnSaveKey').onclick=async()=>{
@@ -1033,38 +693,20 @@ async function loadModels(silent){
 $('btnLoadModels').onclick=()=>loadModels(false);
 $('btnLogout').onclick=()=>{ if(!confirm('Remove your API key from this device?')) return;
   store.del('apiKey'); $('apiKey').value=''; setStatus(); toast('API key removed'); };
-$('charName').value=store.get('charName','');
-$('charName').addEventListener('input',e=>store.set('charName',e.target.value));
 
 /* ---------- Init ---------- */
 $('apiKey').value=store.get('apiKey');
 fillModels(DEFAULT_MODELS.slice());
-bindSeg('tone','tone','santai',toneEx); toneEx();
-bindSeg('charG','charGender','auto');
-bindSeg('meG','meGender','auto');
-bindSeg('autoI','autoIdeas','on');
-bindSeg('theme','theme','dark',applyTheme); applyTheme();
-applyMode(); updateCtx();
+setTone(store.get('tone','santai'));
+setAuto(store.get('autoAct','on'));
+setStatus(); updateCtx();
 render($('outId'), store.get('ctxId'), PH_ID);
 render($('outEn'), store.get('outEn'), PH_EN);
-syncRetry();
-go(mode()==='api' && !store.get('apiKey') ? 2 : 0, false);
-showHandoff();
+renderMeaning(store.get('outEnId'), store.get('outEnAdd'));
+go(store.get('apiKey') ? 0 : 2, false);
 requestAnimationFrame(()=>{ track.style.transition=''; ind.style.transition=''; });
-/* ---------- Lock zoom ---------- */
-// iPhone/iPad + Safari Mac: pinch gestures
-['gesturestart','gesturechange','gestureend'].forEach(t=>
-  document.addEventListener(t,e=>e.preventDefault(),{passive:false}));
-// Any phone: two-finger pinch
-document.addEventListener('touchmove',e=>{ if(e.touches.length>1) e.preventDefault(); },{passive:false});
-// Double-tap zoom
+document.addEventListener('gesturestart',e=>e.preventDefault());
 document.addEventListener('dblclick',e=>e.preventDefault(),{passive:false});
-// PC: Ctrl + mouse wheel / trackpad pinch
-addEventListener('wheel',e=>{ if(e.ctrlKey||e.metaKey) e.preventDefault(); },{passive:false});
-// PC: Ctrl + / Ctrl - / Ctrl 0
-addEventListener('keydown',e=>{
-  if((e.ctrlKey||e.metaKey) && ['+','-','=','_','0'].includes(e.key)) e.preventDefault();
-});
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 </script>
 </body>
